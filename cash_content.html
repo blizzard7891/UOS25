@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>untitled</title>
+	<link rel="stylesheet" type="text/css" href="./css/cash_content.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</head>	
+<body>
+	<div class="container mt-5">
+		<h3>수입/지출 입력</h3>
+		<div id="input_background" class="p-3 mb-5">
+			<div class="mx-auto" id="input_content">
+				<div class="form-group row">
+			  <label id="label-align" class="col-2 col-form-label">금액</label>
+			  <div class="col-5">
+			    <input class="form-control" type="number" value="24000">
+			  </div>
+			</div>
+			<div class="form-group row">
+			  <label id="label-align" class="col-2 col-form-label">날짜</label>
+			  <div class="col-5">
+			    <input class="form-control" type="date" value="2017-05-24">
+			  </div>
+			</div>
+			<div class="form-group row">
+			  <label id="label-align" class="col-2 col-form-label">구분</label>
+			  <div class="col-5 ">
+					<fieldset class="form-group">
+				    <div class="form-check ">
+				      <label class="form-check-label">
+				        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+				        수입
+				      </label>
+				      <label class="form-check-label">
+				        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2">
+				        지출
+				      </label>
+				    </div>
+				  </fieldset>
+				</div>
+			</div>
+			<div class="form-group row">
+			  <label id="label-align" class="col-2 col-form-label">내역 설명</label>
+			  <div class="col-8">
+			    <input class="form-control" type="text">
+			  </div>
+			  <div class="col-2">
+			  	<button type="submit" class="btn btn-primary align-self-end">Submit</button>	
+			  </div>
+			  
+			</div>
+			</div>
+			
+		</div>
+
+		<h3>내역 검색</h3>
+		<div id="input_background" class="p-3 mb-5">
+			<div class="mx-auto" id="input_content">
+				<div class="form-group row">
+			  <label id="label-align" class="col-2 col-form-label">날짜</label>
+			  <div class="col-4">
+			    <input class="form-control" type="date" value="2017-05-24">
+			  </div>
+			  <div class="col-1" style="text-align: center;">--</div>
+			  <div class="col-4">
+			    <input class="form-control" type="date" value="2017-05-24">
+			  </div>
+			</div>
+			<div class="form-group row">
+			  <label id="label-align" class="col-2 col-form-label">구분</label>
+			  <div class="col-5 ">
+					<fieldset class="form-group">
+				    <div class="form-check">
+				      <label class="form-check-label">
+				        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+				        수입
+				      </label>
+				      <label class="form-check-label">
+				        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2">
+				        지출
+				      </label>
+				      <label class="form-check-label">
+				        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2">
+				        전체
+				      </label>
+				    </div>
+				  </fieldset>
+				</div>
+			</div>
+			<div class="form-group row">
+			  <label id="label-align" class="col-2 col-form-label">내역 설명</label>
+			  <div class="col-8">
+			    <input class="form-control" type="text">
+			  </div>
+			  <div class="col-2">
+			  	<button type="submit" class="btn btn-primary align-self-end">Submit</button>	
+			  </div>
+			</div>
+			</div>
+			
+		</div>
+		<table class="table table-bordered">
+		  <thead class="thead-default">
+		    <tr>
+		      <th>일자</th>
+		      <th>구분</th>
+		      <th>설명</th>
+		      <th>금액</th>
+		      <th>잔여액</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row">1</th>
+		      <td>Mark</td>
+		      <td>Otto</td>
+		      <td>@mdo</td>
+		      <td>@mdo</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">2</th>
+		      <td>Jacob</td>
+		      <td>Thornton</td>
+		      <td>@fat</td>
+		      <td>@mdo</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">3</th>
+		      <td>Larry</td>
+		      <td>the Bird</td>
+		      <td>@twitter</td>
+		      <td>@mdo</td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+</body>
+</html>

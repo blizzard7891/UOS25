@@ -1,0 +1,11 @@
+#input_background {
+	background-color: #eceeef;
+	border-radius: 10px;
+}
+
+#input_content {
+	width: 90%;
+}
+#label-align {
+	text-align: right;
+}
