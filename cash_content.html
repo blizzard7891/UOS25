@@ -2,9 +2,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>untitled</title>
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/cash_content.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	
 	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
@@ -13,6 +15,7 @@
 	<div class="container mt-5">
 		<h3>수입/지출 입력</h3>
 		<div id="input_background" class="p-3 mb-5">
+		<form action="#" method="get">
 			<div class="mx-auto" id="input_content">
 				<div class="form-group row">
 			  <label id="label-align" class="col-2 col-form-label">금액</label>
@@ -49,15 +52,17 @@
 			    <input class="form-control" type="text">
 			  </div>
 			  <div class="col-2">
-			  	<button type="submit" class="btn btn-primary align-self-end">Submit</button>	
+			  	<button type="submit" class="btn btn-primary align-self-end">입력</button>	
 			  </div>
 			  
 			</div>
 			</div>
+			</form>
 			
 		</div>
 
 		<h3>내역 검색</h3>
+		<form action="#" method="get">
 		<div id="input_background" class="p-3 mb-5">
 			<div class="mx-auto" id="input_content">
 				<div class="form-group row">
@@ -97,13 +102,15 @@
 			    <input class="form-control" type="text">
 			  </div>
 			  <div class="col-2">
-			  	<button type="submit" class="btn btn-primary align-self-end">Submit</button>	
+			  	<button type="submit" class="btn btn-primary align-self-end">검색</button>	
 			  </div>
 			</div>
 			</div>
 			
 		</div>
-		<table class="table table-bordered">
+		</form>
+		
+		<table class="table table-bordered table-hover">
 		  <thead class="thead-default">
 		    <tr>
 		      <th>일자</th>
