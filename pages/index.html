@@ -106,13 +106,13 @@
                                     <a href="#" onclick="changeUrl('sales_insert.html')">판매</a>
                                 </li>
                                 <li>
-                                    <a href="#">판매내역</a>
+                                    <a href="#" onclick="changeUrl('sales_log.html')">판매내역</a>
                                 </li>
                                 <li>
-                                    <a href="#">환불내역</a>
+                                    <a href="#" onclick="changeUrl('sales_refund_log.html')">환불내역</a>
                                 </li>
                                 <li>
-                                    <a href="#">영수증내역</a>
+                                    <a href="#" onclick="changeUrl('sales_receipt.html')">영수증</a>
                                 </li>
                             </ul>
                         </li>
@@ -128,7 +128,15 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-inbox fa-fw"></i> 재고관리</a>
+                            <a href="#"><i class="fa fa-inbox fa-fw"></i> 재고관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                            	<li>
+                            		<a href="#" onclick="changeUrl('stock_enter.html')">입고관리</a>
+                            	</li>
+                            	<li>
+                            		<a href="#" onclick="changeUrl('stock_release.html')">출고관리</a>
+                            	</li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#" onclick="changeUrl('account_manage.html')">
@@ -145,10 +153,10 @@
                             <a href="#"><i class="fa fa-cubes fa-fw"></i> 부가서비스<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                             	<li>
-                            		<a href="#">택배서비스</a>
+                            		<a href="#" onclick="changeUrl('service_parcel.html')">택배서비스</a>
                             	</li>
                             	<li>
-                            		<a href="#">배터리대여서비스</a>
+                            		<a href="#" onclick="changeUrl('service_battery.html')">배터리대여서비스</a>
                             	</li>
                             </ul>
                         </li>
