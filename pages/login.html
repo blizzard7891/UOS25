@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>Signin Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/signin.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+	
+      <form class="form-signin" action="login_process.php" method="POST">
+        <h2 class="form-signin-heading text-center">UOS25</h2>
+        <input type="text" name="id" class="form-control" placeholder="아이디" maxlength="20" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="비밀번호" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> 로그인정보 저장
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+      </form>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+body::-webkit-scrollbar { 
+    display: none; 
+}
+
+.whitebody{
+	background-color:white;
+}
