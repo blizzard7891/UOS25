@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>입고관리</title>
+    <title>입고내역</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.css" rel="stylesheet">
@@ -34,7 +34,7 @@
 <body class="whitebody">
     
     <div class="col-lg-12">
-    	<h1 class="page-header">입고관리</h1>
+    	<h1 class="page-header">입고내역</h1>
     </div>
     
     <div class="col-lg-12">
@@ -96,6 +96,19 @@
             responsive: true
         });
     });
+		
+	
+	document.onkeydown = trapRefresh;
+	 function trapRefresh()
+	 {
+	  if (event.keyCode == 116)
+	   {
+			event.keyCode = 0; 
+			event.cancelBubble = true; 
+			event.returnValue = false;
+			document.location.reload(1);
+	   }
+	 }  
     </script>
 </body>
 </html>
