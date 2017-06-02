@@ -22,13 +22,6 @@
 
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
-    <script type="text/javascript">
-		function changeUrl(url)
-		{
-			document.getElementById("main_frame").src = url;
-		}
-	</script>
 </head>
 
 <body>
@@ -130,11 +123,14 @@
                         <li>
                             <a href="#"><i class="fa fa-inbox fa-fw"></i> 재고관리<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                            	<li>
-                            		<a href="#" onclick="changeUrl('stock_enter.html')">입고관리</a>
+								<li>
+                            		<a href="#" onclick="changeUrl('stock_state.html')">재고관리</a>
                             	</li>
                             	<li>
-                            		<a href="#" onclick="changeUrl('stock_release.html')">출고관리</a>
+                            		<a href="#" onclick="changeUrl('stock_enter.html')">입고내역</a>
+                            	</li>
+                            	<li>
+                            		<a href="#" onclick="changeUrl('stock_release.html')">출고내역</a>
                             	</li>
                             </ul>
                         </li>
@@ -187,5 +183,24 @@
     <script src="../js/metisMenu.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../js/sb-admin-2.js"></script>
+    
+    <script type="text/javascript">
+		function changeUrl(url)
+		{
+			document.getElementById("main_frame").src = url;
+		}
+		
+		document.onkeydown = trapRefresh;
+		 function trapRefresh()
+		 {
+		  if (event.keyCode == 116)
+		   {
+			   event.keyCode = 0; 
+			   event.cancelBubble = true; 
+			   event.returnValue = false;
+			   document.getElementById("main_frame").contentDocument.location.reload(true);
+		   }
+		 }  
+	</script>
 </body>
 </html>

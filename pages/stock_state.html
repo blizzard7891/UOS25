@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>판매</title>
+    <title>재고</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.css" rel="stylesheet">
@@ -34,30 +34,41 @@
 <body class="whitebody">
 
     <div class="col-lg-12">
-        <h1 class="page-header">판매</h1>
+        <h1 class="page-header">재고관리</h1>
     </div>
 
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong>판매 입력</strong>
+                <strong>입고 입력</strong>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
                         <form>
                             <div class="form-group">
-                                <label>판매제품명</label>
-                                <input type="text" class="form-control">
+                            	<label>품목번호</label>
+                            	<input type="text" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>판매수량</label>
-                                <input type="number" class="form-control">
+                            	<label>수량</label>
+                            	<input type="number" class="form-control">
+                            </div>
+                            <div class="form-group">
+                            	<label>입고일</label>
+                            	<input type="date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                            	<label class="mr-2">입고구분</label>
+                            	<label class="radio-inline">
+    								<input type="radio" name="enterFlag" value="">구분1
+    							</label>
+    							<label class="radio-inline">
+    								<input type="radio" name="enterFlag" value="">구분2
+    							</label>
                             </div>
                             <div class="pull-right">
-                                <button type="submit" class="btn btn-primary">
-                                    추가하기
-                                </button>
+                            	<button type="submit" class="btn btn-primary">입력</button>
                             </div>
                         </form>
                     </div>
@@ -69,33 +80,37 @@
     <div class="col-lg-6">
     	<div class="panel panel-default">
     		<div class="panel-heading">
-    			<strong>결제 정보</strong>
+    			<strong>출고 입력</strong>
     		</div>
     		<div class="panel-body">
     			<div class="row">
     				<div class="col-lg-12">
-    					<div class="col-lg-12">
-    						<strong>결제금액 : </strong>
-    					</div>
-    					<div class="col-lg-12 mt-5">
-    						<strong>결제자 : </strong>
-    					</div>
-    					<div class="col-lg-12 mt-5">
-    						<form action="#">
-    						<div class="form-group">
-    							<label class="mr-2">결제수단: </label>
-    							<label class="radio-inline">
-    								<input type="radio" name="payMethod" value="cash" checked>현금
+    					<form>
+                            <div class="form-group">
+                            	<label>품목번호</label>
+                            	<input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                            	<label>수량</label>
+                            	<input type="number" class="form-control">
+                            </div>
+                            <div class="form-group">
+                            	<label>출고일</label>
+                            	<input type="date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                            	<label class="mr-2">출고구분</label>
+                            	<label class="radio-inline">
+    								<input type="radio" name="releaseFlag" value="">구분1
     							</label>
     							<label class="radio-inline">
-    								<input type="radio" name="payMethod" value="card">카드
+    								<input type="radio" name="releaseFlag" value="">구분2
     							</label>
-    						</div>
-    						<div class="pull-right">
-    							<button type="submit" class="btn btn-primary">결제</button>
-    						</div>
-							</form>
-    					</div>
+                            </div>
+                            <div class="pull-right">
+                            	<button type="submit" class="btn btn-primary">입력</button>
+                            </div>
+                        </form>
     				</div>
     			</div>
     		</div>
@@ -105,36 +120,10 @@
     <div class="col-lg-12">
     	<div class="panel panel-default">
     		<div class="panel-heading">
-    			<strong>판매 리스트</strong>
+    			<strong>재고 상황</strong>
     		</div>
     		<div class="panel-body">
-    			<table class="table table-striped table-bordered table-hover mb-0">
-    				<thead>
-    					<tr>
-    						<th>판매제품명</th>
-    						<th>판매가격</th>
-    						<th>판매수량</th>
-    						<th>금액</th>
-    						<th>행사여부</th>
-    					</tr>
-    				</thead>
-    				<tbody>
-    					<tr>
-    						<td>새우깡</td>
-    						<td>900</td>
-    						<td>2</td>
-    						<td>1800</td>
-    						<td>없음</td>
-    					</tr>
-    					<tr>
-    						<td>맛동산</td>
-    						<td>1400</td>
-    						<td>1</td>
-    						<td>1400</td>
-    						<td>없음</td>
-    					</tr>
-    				</tbody>
-    			</table>
+    			
     		</div>
     	</div>
     </div>
