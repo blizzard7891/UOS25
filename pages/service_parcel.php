@@ -44,14 +44,14 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form>
+						<form action="./service_parcel_process.php" method="POST">
 							<div class="form-group">
 								<label>송장번호</label>
-								<input type="text" class="form-control">
+								<input type="text" name="invoice" class="form-control" required>
 							</div>
 							<div class="form-group">
-								<label>금액</label>
-								<input type="number" class="form-control">
+								<label>무게(g)</label>
+								<input type="number" name="weight" class="form-control" required>
 							</div>
 							<div class="form-group">
     							<label class="mr-2">결제수단: </label>
@@ -82,43 +82,36 @@
 				<table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable">
 					<thead>
 						<tr>
-							<th>순서</th>
 							<th>송장번호</th>
 							<th>접수일자</th>
+							<th>무게(g)</th>
 							<th>금액</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
+						<?php
+						include_once("./db.php");
+
+						function do_fetch($s)
+						{
+							while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+							{
+								echo "<tr>";
+								foreach ($row as $item) 
+								{
+									echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
+								}
+								echo "</tr>";
+							}
+						}
+
+						$query = "SELECT invoice_num,accept_date,weight,shipping_price FROM PARCEL";
+						$s = oci_parse($conn,$query);
+						oci_execute($s);
+						do_fetch($s);
+
+						oci_close($conn);
+						?>
 					</tbody>
 				</table>
     		</div>

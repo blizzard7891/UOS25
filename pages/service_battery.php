@@ -47,11 +47,11 @@
 						<form>
 							<div class="form-group">
 								<label>배터리 제품번호</label>
-								<input class="form-control">
+								<input type="text" name="productnum" class="form-control" required>
 							</div>
 							<div class="form-group">
 								<label>호환기종</label>
-								<input class="form-control">
+								<input type="text" name="device" class="form-control" required>
 							</div>
 							<div class="pull-right">
 								<button type="submit" class="btn btn-primary mr-3">추가하기</button>	
@@ -81,38 +81,29 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
-						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
+						<?php
+						include_once("./db.php");
+
+						function do_fetch($s)
+						{
+							while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+							{
+								echo "<tr>";
+								foreach ($row as $item) 
+								{
+									echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
+								}
+								echo "</tr>";
+							}
+						}
+
+						$query = "SELECT management_num,rental_date,phone_num,rental_price,rental_period,device FROM BATTERY";
+						$s = oci_parse($conn,$query);
+						oci_execute($s);
+						do_fetch($s);
+
+						oci_close($conn);
+						?>
 					</tbody>
 				</table>
     		</div>
