@@ -1,3 +1,6 @@
+<?
+    include_once("product_list_process.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,33 +47,33 @@
     		</div>
     		<div class="panel-body">
     			<div class="row">
-    				<form action="#">
+    				<form action="product_list_tmp.php" method="POST">
     					<div class="col-lg-6">
     						<div class="form-group">
     							<label>제품명</label>
-    							<input type="text" class="form-control">
+    							<input type="text" name="pname" class="form-control">
     						</div>
     						<div class="form-group">
     							<label>제품타입</label>
-    							<input type="text" class="form-control">
+    							<input type="text" name="ptype" class="form-control">
     						</div>
     						<div class="form-group">
     							<label>생산업체</label>
-    							<input type="text" class="form-control">
+    							<input type="text" name="supplier" class="form-control">
     						</div>
     					</div>
     					<div class="col-lg-6">
     						<div class="form-group">
     							<label>소비자가</label>
-								<input type="number" class="form-control">
+								<input type="number" name="customer_price" class="form-control">
     						</div>
     						<div class="form-group">
     							<label>도매가</label>
-    							<input type="number" class="form-control">
+    							<input type="number" name="supplier_price" class="form-control">
     						</div>
     						<div class="form-group">
     							<label>표준유통기한</label>
-    							<input type="number" class="form-control">
+    							<input type="number" name="limit" class="form-control">
     						</div>
     						<div class="pull-right">
 								<button type="submit" class="btn btn-primary mr-3">상품입력</button>
@@ -103,46 +106,29 @@
     					</tr>
     				</thead>
     				<tbody>
-    					<tr class="odd">
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   						</tr>
-   						<tr class="even">
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   						</tr>
-   						<tr class="odd">
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   						</tr>
-   						<tr class="even">
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   							<td>#</td>
-   						</tr>
+          <?
+            $stid = oci_parse($conn, 'SELECT COUNT(*) FROM PRODUCT') or die('oci parse error: '.oci_error($conn));
+            if(oci_execute($stid) == false) die("oci query error [$query] message : ".oci_error($stid));
+            while (($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
+                $count = $res['COUNT(*)'];
+            }
+            oci_free_statement($stid);
+
+            $query = "SELECT * FROM PRODUCT";
+            $stid = oci_parse($conn, $query) or die('oci parse error: '.oci_error($conn));
+            if(oci_execute($stid) == false) die("oci query error [$query] message : ".oci_error($stid));
+            while (($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
+              if(isset($res['STD_EXPDATE']))
+              {
+                $edate = $res['STD_EXPDATE'];
+                
+              }else
+              {
+                $edate = '#';
+              }
+            echo "<tr><td>{$res['PROD_NUM']}</td><td>{$res['PROD_CLASS_NUM']}</td><td>{$res['PROD_NAME']}</td><td>{$res['PROD_PRICE']}</td><td>{$res['PROD_WSALE_PRICE']}</td><td>{$res['SUPPLIER_NUM']}</td><td>$edate</td><td>{$res['STOCK_QTY']}</td></tr>";
+            }
+          ?>
     				</tbody>
     			</table>
     		</div>
@@ -168,19 +154,6 @@
             responsive: true
         });
     });
-		
-	
-	document.onkeydown = trapRefresh;
-	 function trapRefresh()
-	 {
-	  if (event.keyCode == 116)
-	   {
-			event.keyCode = 0; 
-			event.cancelBubble = true; 
-			event.returnValue = false;
-			document.location.reload(1);
-	   }
-	 }  
     </script>
 </body>
 </html>
