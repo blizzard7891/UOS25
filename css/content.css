@@ -7,3 +7,7 @@ body::-webkit-scrollbar {
 .whitebody{
 	background-color:white;
 }
+
+.form-control[readonly]{
+    background-color: transparent;
+}

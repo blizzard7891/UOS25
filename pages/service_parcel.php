@@ -64,7 +64,6 @@
     						</div>
 							<div class="pull-right">
 								<button type="submit" class="btn btn-primary mr-3">결제</button>
-								<button type="reset" class="btn btn-primary">리셋</button>	
 							</div>
 						</form>
 					</div>
