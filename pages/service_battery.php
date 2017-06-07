@@ -54,7 +54,7 @@
 								<input type="text" name="device" class="form-control" maxlength="20"  required>
 							</div>
 							<div class="pull-right">
-								<button type="submit" class="btn btn-primary mr-3">추가하기</button>	
+								<button type="submit" class="btn btn-primary mr-3" name="type" value="0">추가하기</button>	
 							</div>
 						</form>
 					</div>
@@ -71,30 +71,30 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form action="#" method="POST">
+						<form action="./service_battery_process.php" method="POST">
 							<div class="form-group">
 								<label>관리 번호</label>
-								<input id="managenum" type="text" class="form-control" readonly>
+								<input id="managenum" name="managenum" type="text" class="form-control" readonly>
 							</div>
 							<div class="form-group">
 								<label>대여 일자</label>
-								<input id="rentaldate" type="date" class="form-control">
+								<input id="rentaldate" name="rentaldate" type="date" class="form-control" required>
 							</div>
 							<div class="form-group">
 								<label>대여 기간(일)</label>
-								<input id="rentalperiod" type="number" class="form-control">
+								<input id="rentalperiod" name="rentalperiod" type="number" class="form-control" required>
 							</div>
 							<div class="form-group">
 								<label>전화 번호</label>
-								<input id="phonenum" type="text" class="form-control">
+								<input id="phonenum" name="phonenum" type="text" class="form-control" required>
 							</div>
 							<div class="form-group">
 								<label>대여 금액</label>
-								<input id="rentalprice" type="number" class="form-control">
+								<input id="rentalprice" name="rentalprice" type="number" class="form-control" required>
 							</div>
 							<div class="pull-right">
-								<button type="submit" class="btn btn-primary mr-3">대여</button>	
-								<button type="submit" class="btn btn-primary">반납</button>	
+								<button type="submit" class="btn btn-primary mr-3" name="type" value="1">대여</button>	
+								<button type="submit" class="btn btn-primary" name="type" value="2">반납</button>	
 							</div>
 						</form>
 					</div>
@@ -137,7 +137,7 @@
 							}
 						}
 
-						$query = "SELECT management_num,device,rental_date,rental_period,phone_num,rental_price FROM BATTERY";
+						$query = "SELECT management_num,device,to_char(rental_date,'yyyy/mm/dd'),rental_period,phone_num,rental_price FROM BATTERY";
 						$s = oci_parse($conn,$query);
 						oci_execute($s);
 						do_fetch($s);
@@ -171,32 +171,25 @@
         });
     });
 
-    function stringToDate(_date,_format,_delimiter)
+    function stringToDate(_date)
 	{
-            var formatLowerCase=_format.toLowerCase();
-            var formatItems=formatLowerCase.split(_delimiter);
-            var dateItems=_date.split(_delimiter);
-            var monthIndex=formatItems.indexOf("mm");
-            var dayIndex=formatItems.indexOf("dd");
-            var yearIndex=formatItems.indexOf("yyyy");
-            var month=parseInt(dateItems[monthIndex]);
-            month-=1;
-            var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
+            var dateItems=_date.split("/");
+            var month=parseInt(dateItems[1]);
+            if(month >=10)
+            	var formatedDate = dateItems[0]+"-"+month+"-"+dateItems[2];
+            else
+            	var formatedDate = dateItems[0]+"-0"+month+"-"+dateItems[2];
+
             return formatedDate;
 	}
 
     function loadTd(heTr)
     {
-    	document.getElementById("managenum").setAttribute("value",$(heTr).find("td").eq(0).html());
-    	document.getElementById("rentaldate").setAttribute("value", $(heTr).find("td").eq(2).html());
-    
-    	//document.getElementById("rentaldate").value = $(heTr).find("td").eq(2).html();
-
-    	document.getElementById("rentalperiod").setAttribute("value",$(heTr).find("td").eq(3).html());
-    	document.getElementById("phonenum").setAttribute("value",$(heTr).find("td").eq(4).html());
-    	document.getElementById("rentalprice").setAttribute("value",$(heTr).find("td").eq(5).html());
-
-    	//stringToDate($(heTr).find("td").eq(2).html(),"yy/MM/dd","/")
+    	document.getElementById("managenum").value = $(heTr).find("td").eq(0).html();
+    	document.getElementById("rentaldate").value = stringToDate($(heTr).find("td").eq(2).text());
+    	document.getElementById("rentalperiod").value = $(heTr).find("td").eq(3).html();
+    	document.getElementById("phonenum").value = $(heTr).find("td").eq(4).text();
+    	document.getElementById("rentalprice").value = $(heTr).find("td").eq(5).text();
     }
 		
 	document.onkeydown = trapRefresh;
