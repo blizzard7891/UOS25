@@ -51,7 +51,12 @@
 							</div>
 							<div class="form-group">
 								<label>호환기종</label>
-								<input type="text" name="device" class="form-control" maxlength="20"  required>
+								<select name="device" class="form-control" required>
+								<option value="갤럭시S7">갤럭시 S7</option>
+								<option value="갤럭시S8">갤럭시 S8</option>
+								<option value="아이폰7">아이폰 7</option>
+								<option value="G5">G5</option>
+								</select>
 							</div>
 							<div class="pull-right">
 								<button type="submit" class="btn btn-primary mr-3" name="type" value="0">추가하기</button>	

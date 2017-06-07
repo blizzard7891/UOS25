@@ -104,7 +104,7 @@
 							}
 						}
 
-						$query = "SELECT invoice_num,accept_date,weight,shipping_price FROM PARCEL";
+						$query = "SELECT invoice_num,TO_CHAR(accept_date,'yyyy/mm/dd'),weight,shipping_price FROM PARCEL";
 						$s = oci_parse($conn,$query);
 						oci_execute($s);
 						do_fetch($s);
