@@ -1,6 +1,3 @@
-<?
-include_once("employee_manage_process.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +43,7 @@ include_once("employee_manage_process.php");
       </div>
       <div class="panel-body">
         <div class="row">
-        <form action="employee_manage.php" method="POST">
+        <form action="employee_manage_process.php" method="POST">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>이름</label>
@@ -108,7 +105,8 @@ include_once("employee_manage_process.php");
               </tr>
             </thead>
             <tbody>
-          <?php
+          <?
+            include_once("db.php");
             $stid = oci_parse($conn, 'SELECT COUNT(*) FROM EMPLOYEE') or die('oci parse error: '.oci_error($conn));
             if(oci_execute($stid) == false) die("oci query error [$query] message : ".oci_error($stid));
             while (($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
@@ -128,8 +126,16 @@ include_once("employee_manage_process.php");
               {
                 $ddate = '#';
               }
-            // echo "<tr><td> $res['EMPLOYEE_NUM'] </td><td>{$res['NAME']}</td><td>{$res['RANK']}</td><td>{$res['PHONE_NUM']}</td><td>{$res['ADR']}</td><td>{$res['BIRTH']}</td><td>{$res['EMPLOYMENT_DATE']}</td><td>$ddate</td></tr>";
-            echo "<tr><td>".htmlentities($res['EMPLOYEE_NUM'])."</td></tr>";
+            echo "<tr>";
+            echo "<td> {$res['EMPLOYEE_NUM']} </td>";
+            echo "<td> {$res['NAME']} </td>";
+            echo "<td> {$res['RANK']} </td>";
+            echo "<td> {$res['PHONE_NUM']} </td>";
+            echo "<td> {$res['ADR']} </td>";
+            echo "<td> {$res['BIRTH']} </td>";
+            echo "<td> {$res['EMPLOYMENT_DATE']} </td>";
+            echo "<td> $ddate </td>";
+            echo "</tr>";
             }
           ?>
             </tbody>

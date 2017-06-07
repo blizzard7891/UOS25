@@ -1,7 +1,7 @@
 <?php
   include_once("db.php");
 
-  if(isset($_POST['ename']) && isset($_POST['ephone']) && isset($_POST['eaddress']) && isset($_POST['rank']) && isset($_POST['birth']) && isset($_POST['hire']))
+  if(!empty($_POST['ename']) && !empty($_POST['ephone']) && !empty($_POST['eaddress']) && !empty($_POST['rank']) && !empty($_POST['birth']) && !empty($_POST['hire']))
   {
 
   $stid = oci_parse($conn, 'SELECT count(*) FROM EMPLOYEE') or die('oci parse error: '.oci_error($conn));
@@ -11,8 +11,14 @@
   $enum=$res['COUNT(*)'];
   }
   oci_free_statement($stid);
-
+    $today = date("Ym");
     $enum = $enum + 1;
+    if($enum < 10){
+      $enum = $today."0".$enum;
+    }
+    else{
+      $enum = $today.$enum;
+    }
     $ename = $_POST['ename'];
     $ephone = $_POST['ephone'];
     $eaddress = $_POST['eaddress'];
@@ -55,9 +61,12 @@
     if(oci_execute($compiled) == false) die("oci query error [ $query ] message : ".oci_error($compiled));
 
     oci_free_statement($compiled);
+    oci_close($conn);
+    echo "<script>location.replace('./employee_manage.php');</script>"; 
 
   }
   else {
-
+    echo "<script>alert(\"내용을 입력해주세요\");</script>";
+    echo "<script>location.replace('./employee_manage.php');</script>"; 
   }
 ?>
