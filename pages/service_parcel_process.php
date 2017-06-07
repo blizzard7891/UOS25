@@ -16,7 +16,7 @@ SHIPPING_PRICE
 )
 VALUES (
 :invoice,
-TO_DATE(:wdate,'yyyy/mm/dd'),
+TO_DATE(:wdate,'yyyy-mm-dd'),
 :weight,
 :price
 )";
