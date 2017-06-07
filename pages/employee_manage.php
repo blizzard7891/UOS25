@@ -108,7 +108,7 @@ include_once("employee_manage_process.php");
               </tr>
             </thead>
             <tbody>
-          <?
+          <?php
             $stid = oci_parse($conn, 'SELECT COUNT(*) FROM EMPLOYEE') or die('oci parse error: '.oci_error($conn));
             if(oci_execute($stid) == false) die("oci query error [$query] message : ".oci_error($stid));
             while (($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
