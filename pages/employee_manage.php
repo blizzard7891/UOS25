@@ -126,16 +126,16 @@
               {
                 $ddate = '#';
               }
-            echo "<tr>";
-            echo "<td> {$res['EMPLOYEE_NUM']} </td>";
-            echo "<td> {$res['NAME']} </td>";
-            echo "<td> {$res['RANK']} </td>";
-            echo "<td> {$res['PHONE_NUM']} </td>";
-            echo "<td> {$res['ADR']} </td>";
-            echo "<td> {$res['BIRTH']} </td>";
-            echo "<td> {$res['EMPLOYMENT_DATE']} </td>";
-            echo "<td> $ddate </td>";
-            echo "</tr>";
+              echo "<tr>";
+              echo "<td> {$res['EMPLOYEE_NUM']} </td>";
+              echo "<td> {$res['NAME']} </td>";
+              echo "<td> {$res['RANK']} </td>";
+              echo "<td> {$res['PHONE_NUM']} </td>";
+              echo "<td> {$res['ADR']} </td>";
+              echo "<td> {$res['BIRTH']} </td>";
+              echo "<td> {$res['EMPLOYMENT_DATE']} </td>";
+              echo "<td> $ddate </td>";
+              echo "</tr>";
             }
           ?>
             </tbody>
