@@ -37,7 +37,7 @@
 	</div>
 
 	<div class="col-lg-6">
-		<div class="panel panel-default">
+		<div class="panel panel-blue">
 			<div class="panel-heading">
 				<strong>택배결제 정보</strong>
 			</div>
@@ -47,11 +47,11 @@
 						<form action="./service_parcel_process.php" method="POST">
 							<div class="form-group">
 								<label>송장번호</label>
-								<input type="text" name="invoice" class="form-control" required>
+								<input type="text" name="invoice" class="form-control" placeholder="00000000-00000000" pattern="[0-9]{13}" required>
 							</div>
 							<div class="form-group">
 								<label>무게(g)</label>
-								<input type="number" name="weight" class="form-control" required>
+								<input id="winput" type="number" name="weight" class="form-control" required>
 							</div>
 							<div class="form-group">
     							<label class="mr-2">결제수단: </label>
@@ -63,6 +63,7 @@
     							</label>
     						</div>
 							<div class="pull-right">
+								<strong class="mr-2">금액 : <span id="amount">0 원</span> </strong>
 								<button type="submit" class="btn btn-primary mr-3">결제</button>
 							</div>
 						</form>
@@ -73,7 +74,7 @@
 	</div>
     
     <div class="col-lg-12">
-    	<div class="panel panel-default">
+    	<div class="panel panel-blue">
     		<div class="panel-heading">
     			<strong>택배접수 내역</strong>
     		</div>
@@ -137,6 +138,18 @@
         });
     });
 		
+	$("#winput").change(function(){
+		var weight = $("#winput").val();
+		
+		if(weight >= 10000)
+			document.getElementById("amount").innerHTML ="9500 원";
+		else if(weight >= 5000)
+			document.getElementById("amount").innerHTML ="8000 원";
+		else if(weight > 0)
+			document.getElementById("amount").innerHTML ="6500 원";
+		else
+			document.getElementById("amount").innerHTML ="0 원";
+	});
 	
 	document.onkeydown = trapRefresh;
 	 function trapRefresh()

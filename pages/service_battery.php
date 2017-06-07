@@ -37,7 +37,7 @@
 	</div>
 
 	<div class="col-lg-6">
-		<div class="panel panel-default">
+		<div class="panel panel-blue">
 			<div class="panel-heading">
 				<strong>배터리 품목 입력</strong>
 			</div>
@@ -55,6 +55,7 @@
 								<option value="갤럭시S7">갤럭시 S7</option>
 								<option value="갤럭시S8">갤럭시 S8</option>
 								<option value="아이폰7">아이폰 7</option>
+								<option value="아이폰6">아이폰 6</option>
 								<option value="G5">G5</option>
 								</select>
 							</div>
@@ -69,7 +70,7 @@
 	</div>
 
 	<div class="col-lg-6">
-		<div class="panel panel-default">
+		<div class="panel panel-blue">
 			<div class="panel-heading">
 				<strong>배터리 대여/반납</strong>
 			</div>
@@ -79,7 +80,11 @@
 						<form action="./service_battery_process.php" method="POST">
 							<div class="form-group">
 								<label>관리 번호</label>
-								<input id="managenum" name="managenum" type="text" class="form-control" readonly>
+								<input id="managenum" name="managenum" type="text" class="form-control no-border ml-3" readonly>
+							</div>
+							<div class="form-group">
+								<label>호환 기종</label>
+								<input id="devicename" name="devicename" type="text" class="form-control no-border ml-3" readonly>
 							</div>
 							<div class="form-group">
 								<label>대여 일자</label>
@@ -91,7 +96,7 @@
 							</div>
 							<div class="form-group">
 								<label>전화 번호</label>
-								<input id="phonenum" name="phonenum" type="text" class="form-control" required>
+								<input id="phonenum" name="phonenum" type="text" class="form-control" placeholder="000-0000-0000" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" required>
 							</div>
 							<div class="form-group">
 								<label>대여 금액</label>
@@ -109,7 +114,7 @@
 	</div>
     
     <div class="col-lg-12">
-    	<div class="panel panel-default">
+    	<div class="panel panel-blue">
     		<div class="panel-heading">
     			<strong>배터리 대여상황</strong>
     		</div>
@@ -191,23 +196,24 @@
     function loadTd(heTr)
     {
     	document.getElementById("managenum").value = $(heTr).find("td").eq(0).html();
+    	document.getElementById("devicename").value = $(heTr).find("td").eq(1).html();
     	document.getElementById("rentaldate").value = stringToDate($(heTr).find("td").eq(2).text());
     	document.getElementById("rentalperiod").value = $(heTr).find("td").eq(3).html();
     	document.getElementById("phonenum").value = $(heTr).find("td").eq(4).text();
     	document.getElementById("rentalprice").value = $(heTr).find("td").eq(5).text();
     }
 		
-	document.onkeydown = trapRefresh;
-	 function trapRefresh()
-	 {
-	  if (event.keyCode == 116)
-	   {
-			event.keyCode = 0; 
-			event.cancelBubble = true; 
-			event.returnValue = false;
-			document.location.reload(1);
-	   }
-	 }  
+    document.onkeydown = trapRefresh;
+    function trapRefresh()
+    {
+    	if (event.keyCode == 116)
+    	{
+    		event.keyCode = 0; 
+    		event.cancelBubble = true; 
+    		event.returnValue = false;
+    		document.location.reload(1);
+    	}
+    }  
     </script>
 </body>
 

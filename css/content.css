@@ -11,3 +11,8 @@ body::-webkit-scrollbar {
 .form-control[readonly]{
     background-color: transparent;
 }
+
+.no-border{
+	border: 0px;
+	box-shadow: 0px 0px;
+}
