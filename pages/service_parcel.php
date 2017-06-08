@@ -47,7 +47,7 @@
 						<form action="./service_parcel_process.php" method="POST">
 							<div class="form-group">
 								<label>송장번호</label>
-								<input type="text" name="invoice" class="form-control" placeholder="00000000-00000000" pattern="[0-9]{13}" required>
+								<input type="text" name="invoice" class="form-control" placeholder="0000000000000" pattern="[0-9]{13}" required>
 							</div>
 							<div class="form-group">
 								<label>무게(g)</label>
