@@ -88,7 +88,7 @@
 							</div>
 							<div class="form-group">
 								<label>대여 일자</label>
-								<input id="rentaldate" name="rentaldate" type="date" class="form-control" required>
+								<input id="rentaldate" name="rentaldate" type="text" class="form-control no-border ml-3" readonly>
 							</div>
 							<div class="form-group">
 								<label>대여 기간(일)</label>
@@ -98,14 +98,25 @@
 								<label>전화 번호</label>
 								<input id="phonenum" name="phonenum" type="text" class="form-control" placeholder="000-0000-0000" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" required>
 							</div>
+							
 							<div class="form-group">
-								<label>대여 금액</label>
-								<input id="rentalprice" name="rentalprice" type="number" class="form-control" required>
+								<label>구분</label>
+								<div>
+									<label class="radio-inline">
+										<input type="radio" name="flag" value="cash" checked>현금
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="flag" value="card">카드
+									</label>
+								</div>
+								<div class="pull-right">
+									<strong class="mr-2">금액 : <span id="amount">0 원</span> </strong>
+									<button type="submit" class="btn btn-primary mr-3" name="type" value="1">대여</button>	
+									<button type="submit" class="btn btn-primary" name="type" value="2">반납</button>	
+									<input type="hidden" id="rentalprice" name="rentalprice">
+								</div>
 							</div>
-							<div class="pull-right">
-								<button type="submit" class="btn btn-primary mr-3" name="type" value="1">대여</button>	
-								<button type="submit" class="btn btn-primary" name="type" value="2">반납</button>	
-							</div>
+							
 						</form>
 					</div>
 				</div>
@@ -141,7 +152,7 @@
 								echo "<tr id='a' onclick='loadTd(this)'>";
 								foreach ($row as $item) 
 								{
-									echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
+									echo "<td>".($item?htmlentities($item):'')."</td>";
 								}
 								echo "</tr>";
 							}
@@ -197,11 +208,18 @@
     {
     	document.getElementById("managenum").value = $(heTr).find("td").eq(0).html();
     	document.getElementById("devicename").value = $(heTr).find("td").eq(1).html();
-    	document.getElementById("rentaldate").value = stringToDate($(heTr).find("td").eq(2).text());
+    	document.getElementById("rentaldate").value = $(heTr).find("td").eq(2).text();
     	document.getElementById("rentalperiod").value = $(heTr).find("td").eq(3).html();
     	document.getElementById("phonenum").value = $(heTr).find("td").eq(4).text();
-    	document.getElementById("rentalprice").value = $(heTr).find("td").eq(5).text();
     }
+		
+	$("#rentalperiod").change(function(){
+		var period = $("#rentalperiod").val();
+		var price = period * 2500;
+		
+		document.getElementById("amount").innerHTML =price + "원";
+		document.getElementById("rentalprice").value = price;
+	});
 		
     document.onkeydown = trapRefresh;
     function trapRefresh()
