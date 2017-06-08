@@ -40,7 +40,7 @@ elseif($_POST['type'] == "1")
 	if(isset($_POST['managenum']))
 	{	
 	$managenum = $_POST['managenum'];
-	$rentaldate = $_POST['rentaldate'];
+	$rentaldate = date( "Y/m/d" );
 	$rentalperiod = $_POST['rentalperiod'];
 	$phonenum = $_POST['phonenum'];
 	$rentalprice = $_POST['rentalprice'];

@@ -200,13 +200,15 @@
 	<script>
 		$(document).ready(function() {
 			$('#myTable').DataTable({
-				responsive: true
+				responsive: true,
+				"aaSorting":[[0,'desc']]
 			});
 		});
 		
 		$(document).ready(function() {
 			$('#myTable1').DataTable({
-				responsive: true
+				responsive: true,
+				"aaSorting":[[0,'desc']]
 			});
 		});
 		
