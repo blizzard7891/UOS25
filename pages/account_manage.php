@@ -118,11 +118,11 @@
 									$i++;
 									
 									if($item == $row['FLAG'] && trim($item)==="00" && $i==4)
-										echo "<td>수입</td>.";
+										echo "<td>수입</td>";
 									elseif($item == $row['FLAG'] && trim($item)==="01" && $i==4)
 										echo "<td>지출</td>";
 									elseif($item == $row['PAY_METHOD'] && trim($item)==="00" && $i==5)
-										echo "<td>현금</td>.";
+										echo "<td>현금</td>";
 									elseif($item == $row['PAY_METHOD'] && trim($item)==="01" && $i==5)
 										echo "<td>카드</td>";
 									elseif($item == $row['REMAIN_AMOUNT'] && $item ==0)

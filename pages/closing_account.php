@@ -32,52 +32,6 @@
 </head>
 
 <body class="whitebody">
-   <?php
-	class item{
-		var $td1;
-		var $td2;
-		var $td3;
-		var $td4;
-	}
-	
-	class items{
-		var $item;
-		
-		function set($d1,$d2,$d3,$d4)
-		{
-			if(!isset($this->item[$d1]))
-				$this->item[$d1] = new item;
-			
-			$this->item[$d1]->td1 = $d1;
-			$this->item[$d1]->td2 = $d2;
-			$this->item[$d1]->td3 = $d3;
-			$this->item[$d1]->td4 = $d4;
-		}
-		
-		function get($name)
-		{
-			return $this->item[$name];
-		}
-		
-		function fetch()
-		{
-			$tmp =current($this->item);
-			if(!$tmp)
-				reset($this->item);
-			else
-				next($this->item);
-			return $tmp;
-		}
-		
-		function remote($name)
-		{
-			unset($this->item[$name]);
-		}
-	}
-	
-	if(!isset($items))
-		$items = new items;
-	?>
 
    <div class="col-lg-12">
    	<h1 class="page-header">결산관리</h1>
@@ -132,6 +86,7 @@
    			<strong>일 매출</strong>
    		</div>
    		<div class="panel-body">
+   		<form action="./closing_account_process.php" method="POST">
    			<table id="tb" class="table table-striped table-bordered table-hover">
    				<thead>
    					<tr>
@@ -155,11 +110,18 @@
    						<td>#</td>
    					</tr>
    				</tbody>
-   			</table>
-   			<div class="pull-right mt-3">
-   				<label class="mr-3">매출 : <span id="amount">0원</span></label>
-   				<button type="submit" class="btn btn-primary">결산</button>
-   			</div>
+				</table>
+				<input name="td1_1" id="td1_1" type="hidden">
+				<input name="td1_2" id="td1_2" type="hidden">
+				<input name="td1_3" id="td1_3" type="hidden">
+				<input name="td2_1" id="td2_1" type="hidden">
+				<input name="td2_2" id="td2_2" type="hidden">
+				<input name="td2_3" id="td2_3" type="hidden">
+				<div class="pull-right mt-3">
+					<label class="mr-3">매출 : <span id="amount">0원</span></label>
+					<button type="submit" class="btn btn-primary">결산</button>
+				</div>
+   			</form>
    		</div>
    	</div>
    </div>
@@ -178,20 +140,54 @@
    						<th width="1%">구분</th>
    						<th width="1%">수익</th>
    						<th width="1%">지출</th>
-   						<th width="1%">결산액</th>
+   						<th width="1%">매출액</th>
    						<th width="1%">결산자</th>
    					</tr>
    				</thead>
    				<tbody>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
+   					<?php
+					include_once("./db.php");
+
+					function do_fetch($s)
+					{
+					  while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+					  {
+						$i =0;
+						echo "<tr>";
+						foreach ($row as $item) 
+						{
+						  $i++;
+
+						  if($item == $row['CLACNT_GROUP'] && trim($item)==="00")
+							echo "<td>현금</td>";
+						  elseif($item == $row['CLACNT_GROUP'] && trim($item)==="01")
+							echo "<td>카드</td>";
+						  elseif($item == 0)
+							echo "<td>0</td>";
+						  else
+							echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
+						}
+						echo "</tr>";
+						$i =0;
+					  }
+					}
+
+					$query = "SELECT 
+					CLACNT_NUM,
+					TO_CHAR(CLACNT_DATE,'YYYY/MM/DD'),
+					CLACNT_GROUP,
+					PROFIT,
+					EXPENSE,
+					CLACNT_AMOUNT,
+					EMPLOYEE_NUM
+					FROM CLOSING_ACCOUNT";
+
+					$s = oci_parse($conn,$query);
+					oci_execute($s);
+					do_fetch($s);
+
+					oci_close($conn);
+					?>
    				</tbody>
    			</table>
    		</div>
@@ -213,9 +209,11 @@
     <script src="../js/content.js"></script>
     <script src="../js/jquery.json-2.4.min.js"></script>
     <script>
+		
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: true
+            responsive: true,
+            "aaSorting":[[0,'desc']]
         });
     });
 		
@@ -227,6 +225,7 @@
 		
 	$(document).ready( function() {
 		$('#closingdate').val(new Date().toDateInputValue());
+		saveData();
 	});
 	
 	document.getElementById('closingdate').value = new Date().toDateInputValue();
@@ -242,49 +241,42 @@
 		var spending = document.getElementById("spending").value;
 		
 		if(profit != '')
-			$(tmpTr).find("td").eq(1).html(profit);
+			$(tmpTr).find("td").eq(1).text(profit);
 		else
-			$(tmpTr).find("td").eq(1).html(0);
+			$(tmpTr).find("td").eq(1).text(0);
 		if(spending != '')
-			$(tmpTr).find("td").eq(2).html(spending);
+			$(tmpTr).find("td").eq(2).text(spending);
 		else
-			$(tmpTr).find("td").eq(2).html(0);
-		$(tmpTr).find("td").eq(3).html(closingDate);
+			$(tmpTr).find("td").eq(2).text(0);
+		$(tmpTr).find("td").eq(3).text(closingDate);
 		
 		form.reset();
 		document.getElementById('closingdate').value = closingDate;
 		
-		var cashProfit = parseInt($("#cashTr").find("td").eq(1).html());
-		var cashSpending =parseInt($("#cashTr").find("td").eq(2).html());
-		var cardProfit = parseInt($("#cardTr").find("td").eq(1).html());
-		var cardSpending = parseInt($("#cardTr").find("td").eq(2).html());
+		var cashProfit = parseInt($("#cashTr").find("td").eq(1).text());
+		var cashSpending =parseInt($("#cashTr").find("td").eq(2).text());
+		var cardProfit = parseInt($("#cardTr").find("td").eq(1).text());
+		var cardSpending = parseInt($("#cardTr").find("td").eq(2).text());
 		
 		var result = cashProfit + cardProfit - cashSpending - cardSpending;
 		
 		document.getElementById("amount").innerHTML = result+"원";
+		saveData();
+		
 	}
 		
-		var TableData;
-		TableData = storeTblValues()
-		TableData = $.toJSON(TableData);
-
-		function storeTblValues()
+		function saveData()
 		{
-			var TableData = new Array();
-
-			$('#tb tr').each(function(row, tr){
-				TableData[row]={
-					"flag" : $(tr).find('td:eq(0)').text()
-					, "profit" :$(tr).find('td:eq(1)').text()
-					, "spending" : $(tr).find('td:eq(2)').text()
-					, "closingdate" : $(tr).find('td:eq(3)').text()
-				}    
-			}); 
-			TableData.shift();  // first row will be empty - so remove
-			return TableData;
+			$('#td1_1').val($('#cashTr').find("td").eq(1).text());
+			$('#td1_2').val($('#cashTr').find("td").eq(2).text());
+			$('#td1_3').val($('#cashTr').find("td").eq(3).text());
+			$('#td2_1').val($('#cardTr').find("td").eq(1).text());
+			$('#td2_2').val($('#cardTr').find("td").eq(2).text());
+			$('#td2_3').val($('#cardTr').find("td").eq(3).text());
 		}
 		
-
+	
+		
 	document.onkeydown = trapRefresh;
 	 function trapRefresh()
 	 {
