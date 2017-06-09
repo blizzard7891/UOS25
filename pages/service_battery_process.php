@@ -1,8 +1,6 @@
 <?php 
 include_once("./db.php");
 
-
-
 if($_POST['type'] == "0")
 {
 	if(isset($_POST['productnum']))

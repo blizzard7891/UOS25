@@ -45,30 +45,17 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form>
+                        <form action="./stock_state_process.php" method="POST">
                             <div class="form-group">
                             	<label>품목번호</label>
-                            	<input type="text" class="form-control">
+                            	<input name="enterproduct" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
                             	<label>수량</label>
-                            	<input type="number" class="form-control">
-                            </div>
-                            <div class="form-group">
-                            	<label>입고일</label>
-                            	<input type="date" class="form-control">
-                            </div>
-                            <div class="form-group">
-                            	<label class="mr-2">입고구분</label>
-                            	<label class="radio-inline">
-    								<input type="radio" name="enterFlag" value="">구분1
-    							</label>
-    							<label class="radio-inline">
-    								<input type="radio" name="enterFlag" value="">구분2
-    							</label>
+                            	<input name="enterqty" type="number" class="form-control" required>
                             </div>
                             <div class="pull-right">
-                            	<button type="submit" class="btn btn-primary">입력</button>
+                            	<button type="submit" name="type" value="0" class="btn btn-primary">입고입력</button>
                             </div>
                         </form>
                     </div>
@@ -85,30 +72,17 @@
     		<div class="panel-body">
     			<div class="row">
     				<div class="col-lg-12">
-    					<form>
+    					<form action="./stock_state_process.php" method="POST">
                             <div class="form-group">
                             	<label>품목번호</label>
-                            	<input type="text" class="form-control">
+                            	<input name="releaseproduct" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
                             	<label>수량</label>
-                            	<input type="number" class="form-control">
-                            </div>
-                            <div class="form-group">
-                            	<label>출고일</label>
-                            	<input type="date" class="form-control">
-                            </div>
-                            <div class="form-group">
-                            	<label class="mr-2">출고구분</label>
-                            	<label class="radio-inline">
-    								<input type="radio" name="releaseFlag" value="">구분1
-    							</label>
-    							<label class="radio-inline">
-    								<input type="radio" name="releaseFlag" value="">구분2
-    							</label>
+                            	<input name="releaseqty" type="number" class="form-control" required>
                             </div>
                             <div class="pull-right">
-                            	<button type="submit" class="btn btn-primary">입력</button>
+                            	<button type="submit" name="type" value="1" class="btn btn-primary">출고입력</button>
                             </div>
                         </form>
     				</div>
@@ -123,7 +97,54 @@
     			<strong>재고 상황</strong>
     		</div>
     		<div class="panel-body">
-    			
+    			<table width="100%" class="table table-striped table-bordered table-hover" id="myTable">
+                   <thead>
+                       <tr>
+                           <th width="1%">순서번호</th>
+                           <th width="2%">제품번호</th>
+                           <th width="2%">제품명</th>
+                           <th width="2%">표준유통기한(일)</th>
+                           <th width="1%">재고수량</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <?php
+                        include_once("./db.php");
+
+                        function do_fetch($s)
+                        {
+                            $i = 0;
+                          while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+                          {
+                            $i++;
+                            echo "<tr>";
+                            echo "<td>".$i."</td>";
+                            foreach ($row as $item) 
+                            {
+                              if($item == '0')
+                                echo "<td>0</td>";
+                              else
+                                echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
+                            }
+                            echo "</tr>";
+                          }
+                        }
+
+                        $query = "SELECT 
+                        PROD_NUM,
+                        PROD_NAME,
+                        STD_EXPDATE,
+                        STOCK_QTY
+                        FROM PRODUCT";
+
+                        $s = oci_parse($conn,$query);
+                        oci_execute($s);
+                        do_fetch($s);
+
+                        oci_close($conn);
+                        ?>
+                   </tbody>
+                </table>
     		</div>
     	</div>
     </div>
