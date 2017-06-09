@@ -78,14 +78,17 @@
 
               function do_fetch($s)
               {
+                $count = 0;
                 while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
                 {
-                  echo "<tr>";
+                  
+                  echo "<tr id="."tr_".$count." onclick=more_info(".$count.");>";
                   foreach ($row as $item) 
                   {
                     echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
                   }
                   echo "</tr>";
+                  $count = $count + 1;
                 }
               }
 
@@ -121,11 +124,41 @@
     <script src="../js/sb-admin-2.js"></script>
     <script src="../js/content.js"></script>
     <script>
+
+
+    function more_info(row) {
+
+         
+
+         var tr = document.getElementById("tr_"+row);
+         var onum = tr.cells[0].innerHTML;
+         var form = document.createElement("form");
+         form.setAttribute("name", "myform")
+         form.setAttribute("method", "post");
+         form.setAttribute("action", "./order_log_more.php");
+
+         var hiddenField = document.createElement("input");
+         hiddenField.setAttribute("type", "hidden");
+         hiddenField.setAttribute("name", "onum");
+         hiddenField.setAttribute("value", onum);
+         form.appendChild(hiddenField);
+         document.body.appendChild(form);
+
+         form.submit();
+
+      }
+
     $(document).ready(function() {
         $('#myTable').DataTable({
             responsive: true
         });
     });
+
+    // $("tr").click(function(){        //function_tr 
+    //   window.open("order_log_more.php", "popup_window", "width=1000, height=1000, scrollbars=no");
+    // }); 
+
+
 		
 	
 	document.onkeydown = trapRefresh;
