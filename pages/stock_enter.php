@@ -49,28 +49,48 @@
     						<th>입고번호</th>
     						<th>입고일자</th>
     						<th>입고구분</th>
+    						<th>제품번호</th>
     						<th>수량</th>
     					</tr>
     				</thead>
     				<tbody>
-    					<tr>
-    						<td>#</td>
-    						<td>#</td>
-    						<td>#</td>
-    						<td>#</td>
-    					</tr>
-    					<tr>
-    						<td>#</td>
-    						<td>#</td>
-    						<td>#</td>
-    						<td>#</td>
-    					</tr>
-    					<tr>
-    						<td>#</td>
-    						<td>#</td>
-    						<td>#</td>
-    						<td>#</td>
-    					</tr>
+    				
+    					<?php
+						include_once("./db.php");
+
+						function do_fetch($s)
+						{
+							while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+							{
+								$i =0;
+								echo "<tr>";
+								foreach ($row as $item) 
+								{
+									$i++;
+									
+									if($item == $row['ENT_GROUP'] && trim($item)==="00" && $i == 3)
+										echo "<td>주문</td>";
+									elseif($item == $row['ENT_GROUP'] && trim($item)==="01" && $i == 3)
+										echo "<td>환불</td>";
+									elseif($item == $row['ENT_GROUP'] && trim($item)==="10" && $i == 3)
+										echo "<td>기타</td>";
+									elseif($item ==0)
+										echo "<td>0</td>";
+									else
+										echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
+								}
+								echo "</tr>";
+							}
+						}
+
+						$query = "SELECT SEQ_NUM,TO_CHAR(ENT_DATE,'YYYY/MM/DD'),ENT_GROUP,PROD_NUM,QTY FROM ENTER";
+						$s = oci_parse($conn,$query);
+						oci_execute($s);
+						do_fetch($s);
+
+						oci_close($conn);
+						?>
+
     				</tbody>
     			</table>
     		</div>
@@ -93,7 +113,8 @@
     <script>
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: true
+            responsive: true,
+			"aaSorting":[[0,'desc']]
         });
     });
 		

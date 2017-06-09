@@ -84,11 +84,10 @@ if(isset($_POST['amount']))
 
 		oci_close($conn);
 }
-
-echo("<script>location.replace('./account_manage.php');</script>"); 
+	
 }else
 {
 
 }
-
+echo("<script>location.replace('./account_manage.php');</script>"); 
 ?>
