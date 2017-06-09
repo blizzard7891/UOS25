@@ -56,6 +56,69 @@ if($_POST['type'] == "0")
 	
 	oci_execute($s);
 	oci_free_statement($s);
+	
+	$query = "SELECT * FROM EXP_DATE_MANAGEMENT WHERE TO_CHAR(ent_date,'yyyymmdd') = TO_CHAR(TO_DATE(:enterdate,'YYYY/MM/DD'),'yyyymmdd') AND prod_num = :enterproduct";
+
+	$s = oci_parse($conn,$query);
+
+	oci_bind_by_name($s, ':enterdate', $enterdate);
+	oci_bind_by_name($s, ':enterproduct', $enterproduct);
+	
+	oci_execute($s);
+	
+	if(oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+	{
+		oci_free_statement($s);
+		
+		$query = "UPDATE EXP_DATE_MANAGEMENT SET qty = qty + :enterqty WHERE TO_CHAR(ent_date,'yyyymmdd') = TO_CHAR(TO_DATE(:enterdate,'YYYY/MM/DD'),'yyyymmdd') AND prod_num = :enterproduct";
+
+		$s = oci_parse($conn,$query);
+
+		oci_bind_by_name($s, ':enterqty', $enterqty);
+		oci_bind_by_name($s, ':enterdate', $enterdate);
+		oci_bind_by_name($s, ':enterproduct', $enterproduct);
+
+		oci_execute($s);
+		oci_free_statement($s);
+	}
+	else
+	{
+		oci_free_statement($s);
+		
+		$query = "SELECT std_expdate FROM PRODUCT WHERE prod_num = :enterproduct";
+
+		$s = oci_parse($conn,$query);
+
+		oci_bind_by_name($s, ':enterproduct', $enterproduct);
+		oci_execute($s);
+		$row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC);
+		$stdexpdate = $row['STD_EXPDATE'];
+		
+		oci_free_statement($s);
+		
+		if($stdexpdate != ''){
+			$query = "INSERT INTO EXP_DATE_MANAGEMENT(
+			ENT_DATE,
+			EXPDATE,
+			PROD_NUM,
+			QTY) VALUES(
+			TO_DATE(:enterdate,'yyyy/mm/dd'),
+			TO_DATE(:enterdate,'yyyy/mm/dd')+:stdexpdate,
+			:enterproduct,
+			:enterqty
+			)";
+
+			$s = oci_parse($conn,$query);
+
+			oci_bind_by_name($s, ':enterdate', $enterdate);
+			oci_bind_by_name($s, ':stdexpdate', $stdexpdate);
+			oci_bind_by_name($s, ':enterproduct', $enterproduct);
+			oci_bind_by_name($s, ':enterqty', $enterqty);
+
+			oci_execute($s);
+			oci_free_statement($s);
+		}
+	}
 
 	oci_close($conn);
 	

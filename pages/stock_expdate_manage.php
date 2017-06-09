@@ -104,31 +104,58 @@
     			유통기한 관리
     		</div>
     		<div class="panel-body">
-    			<table width="100%" class="table table-bordered table-striped table-hover" id="myTable">
+    			<table width="100%" class="table table-bordered table-striped table-hover" id="myTable" style="text-align: center">
     				<thead>
     					<tr>
-    						<th>입고일자</th>
-							<th>제품명</th>
-							<th>유통기한</th>
-							<th>재고수량</th>
+    						<th width="2%">입고일자</th>
+							<th width="2%">제품명</th>
+							<th width="2%">유통기한</th>
+							<th width="1%">재고수량</th>
+							<th width="2%">출고</th>
     					</tr>
     				</thead>
     				<tbody>
     					<?php
                         include_once("./db.php");
+						
+						function do_fetch1($s)
+                        {
+							$count = 0;
+                          while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+                          {
+							  $i=0;
+                            echo "<tr id='tr_".$count."'>";
+                            foreach ($row as $item) 
+                            {
+							  if($item == '0')
+								echo "<td>0</td>";
+							  elseif($i==4)
+								echo "<td><input style='width:3em' type='number' id='amount_".$count."'>
+							<input type='hidden' id='prodNum_".$count."' value='".$row['PROD_NUM']."'>
+							<button class='btn-danger no-border' onclick='release(".$count.")'>출고</button></td>";  
+							  else
+								echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
+								
+								$i++;
+                            }
+                            echo "</tr>";
+							  $count ++;
+                          }
+                        }
 
                          $query = "SELECT 
                         TO_CHAR(a.ENT_DATE,'yyyy/mm/dd'),
 						b.PROD_NAME,
                         TO_CHAR(a.EXPDATE,'yyyy/mm/dd'),
-						a.QTY
+						a.QTY,
+						a.PROD_NUM
                         FROM EXP_DATE_MANAGEMENT a,PRODUCT b
 						WHERE a.PROD_NUM = b.PROD_NUM";
 	
                         $s = oci_parse($conn,$query);
 					
                         oci_execute($s);
-                        do_fetch($s);
+                        do_fetch1($s);
 
                         oci_close($conn);
                         ?>
@@ -159,6 +186,47 @@
         });
     });
 		
+	function release(row) 
+	{
+		var amount = document.getElementById("amount_"+row).value;
+		if(amount >0)
+		{
+			var tr = document.getElementById("tr_"+row);
+			var enterDate = tr.cells[0].innerHTML;
+			var form = document.createElement("form");
+			form.setAttribute("method", "post");
+			form.setAttribute("action", "./stock_expdate_manage_process.php");
+
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", "enterDate");
+			hiddenField.setAttribute("value", enterDate);
+
+			var amountField = document.createElement("input");
+			amountField.setAttribute("type", "hidden");
+			amountField.setAttribute("name", "amount");
+
+			amountField.setAttribute("value", amount);
+
+			var prodNumField = document.createElement("input");
+			prodNumField.setAttribute("type", "hidden");
+			prodNumField.setAttribute("name", "prodNum");
+				var prodNum = document.getElementById("prodNum_"+row).value;
+			prodNumField.setAttribute("value", prodNum);
+
+			form.appendChild(hiddenField);
+			form.appendChild(amountField);
+			form.appendChild(prodNumField);
+			document.body.appendChild(form);
+
+			alert(amount+"개 출고처리 되었습니다");
+			form.submit();
+		}else
+		{
+			alert("수량을 올바르게 기입해주세요.");
+		}
+	
+    }
 	
 	document.onkeydown = trapRefresh;
 	 function trapRefresh()
