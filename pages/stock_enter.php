@@ -49,7 +49,7 @@
     						<th>입고번호</th>
     						<th>입고일자</th>
     						<th>입고구분</th>
-    						<th>제품번호</th>
+    						<th>제품명</th>
     						<th>수량</th>
     					</tr>
     				</thead>
@@ -74,7 +74,7 @@
 										echo "<td>환불</td>";
 									elseif($item == $row['ENT_GROUP'] && trim($item)==="10" && $i == 3)
 										echo "<td>기타</td>";
-									elseif($item ==0)
+									elseif($item =='0')
 										echo "<td>0</td>";
 									else
 										echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
@@ -83,7 +83,7 @@
 							}
 						}
 
-						$query = "SELECT SEQ_NUM,TO_CHAR(ENT_DATE,'YYYY/MM/DD'),ENT_GROUP,PROD_NUM,QTY FROM ENTER";
+						$query = "SELECT a.SEQ_NUM,TO_CHAR(a.ENT_DATE,'YYYY/MM/DD'),a.ENT_GROUP,b.PROD_NAME,a.QTY FROM ENTER a,PRODUCT b WHERE a.PROD_NUM = b.PROD_NUM";
 						$s = oci_parse($conn,$query);
 						oci_execute($s);
 						do_fetch($s);
