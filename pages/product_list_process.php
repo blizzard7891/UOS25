@@ -1,4 +1,5 @@
-<?php 
+<?php
+$prevPage = $_SERVER['HTTP_REFERER'];
 include_once("db.php");
 if(!empty($_POST['pname']) && !empty($_POST['ptype']) && !empty($_POST['supplier']) && !empty($_POST['customer_price']) && !empty($_POST['supplier_price']) && !empty($_POST['limit'])){
 
@@ -75,8 +76,8 @@ oci_free_statement($stid4);
 
 
 oci_close($conn);
-
-echo("<script>location.replace('./product_list.php');</script>"); 
+header('location:'.$prevPage);
+//echo("<script>location.replace('./product_list.php');</script>"); 
 }
 else {
 	echo "<script>alert(\"내용을 입력해주세요\");</script>";
