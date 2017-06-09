@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-lg-6">
-        <div class="panel panel-default">
+        <div class="panel panel-blue">
             <div class="panel-heading">
                 <strong>입고 입력</strong>
             </div>
@@ -47,12 +47,37 @@
                     <div class="col-lg-12">
                         <form action="./stock_state_process.php" method="POST">
                             <div class="form-group">
-                            	<label>품목번호</label>
-                            	<input name="enterproduct" type="text" class="form-control" required>
+                            	<label>품목명</label>
+                            	<select name="enterproduct" class="form-control" required>
+                            		<?php
+									include_once("./db.php");
+
+									function do_fetch1($s)
+									{
+									  while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+									  {
+										echo "<option value='".$row['PROD_NUM']."'>";
+										echo htmlentities($row['PROD_NAME']);
+										echo "</option>";
+									  }
+									}
+
+									$query = "SELECT 
+									PROD_NUM,
+									PROD_NAME
+									FROM PRODUCT";
+
+									$s = oci_parse($conn,$query);
+									oci_execute($s);
+									do_fetch1($s);
+
+									oci_close($conn);
+									?>
+                            	</select>
                             </div>
                             <div class="form-group">
                             	<label>수량</label>
-                            	<input name="enterqty" type="number" class="form-control" required>
+                            	<input name="enterqty" type="number" class="form-control" placeholder="0" required>
                             </div>
                             <div class="pull-right">
                             	<button type="submit" name="type" value="0" class="btn btn-primary">입고입력</button>
@@ -65,7 +90,7 @@
     </div>
     
     <div class="col-lg-6">
-    	<div class="panel panel-default">
+    	<div class="panel panel-blue">
     		<div class="panel-heading">
     			<strong>출고 입력</strong>
     		</div>
@@ -75,11 +100,26 @@
     					<form action="./stock_state_process.php" method="POST">
                             <div class="form-group">
                             	<label>품목번호</label>
-                            	<input name="releaseproduct" type="text" class="form-control" required>
+                            	<select name="releaseproduct" class="form-control" required>
+                            		<?php
+									include_once("./db.php");
+
+									$query = "SELECT 
+									PROD_NUM,
+									PROD_NAME
+									FROM PRODUCT";
+
+									$s = oci_parse($conn,$query);
+									oci_execute($s);
+									do_fetch1($s);
+
+									oci_close($conn);
+									?>
+                            	</select>
                             </div>
                             <div class="form-group">
                             	<label>수량</label>
-                            	<input name="releaseqty" type="number" class="form-control" required>
+                            	<input name="releaseqty" type="number" class="form-control" placeholder="0" required>
                             </div>
                             <div class="pull-right">
                             	<button type="submit" name="type" value="1" class="btn btn-primary">출고입력</button>
@@ -92,7 +132,7 @@
     </div>
     
     <div class="col-lg-12">
-    	<div class="panel panel-default">
+    	<div class="panel panel-blue">
     		<div class="panel-heading">
     			<strong>재고 상황</strong>
     		</div>

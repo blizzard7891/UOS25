@@ -73,7 +73,9 @@
 										echo "<td>반품</td>";
 									elseif($item == $row['REL_GROUP'] && trim($item)==="10" && $i == 3)
 										echo "<td>폐기</td>";
-									elseif($item == 0)
+									elseif($item == $row['REL_GROUP'] && trim($item)==="11" && $i == 3)
+										echo "<td>기타</td>";
+									elseif($item == '0')
 										echo "<td>0</td>";
 									else
 										echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
@@ -83,7 +85,7 @@
 							}
 						}
 
-						$query = "SELECT SEQ_NUM,TO_CHAR(REL_DATE,'YYYY/MM/DD'),REL_GROUP,PROD_NUM,QTY FROM RELEASE";
+						$query = "SELECT a.SEQ_NUM,TO_CHAR(a.REL_DATE,'YYYY/MM/DD'),a.REL_GROUP,b.PROD_NAME,a.QTY FROM RELEASE a, PRODUCT b WHERE a.PROD_NUM = b.PROD_NUM";
 						$s = oci_parse($conn,$query);
 						oci_execute($s);
 						do_fetch($s);

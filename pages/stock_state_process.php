@@ -64,7 +64,7 @@ if($_POST['type'] == "0")
 	$releaseproduct = $_POST['releaseproduct'];
 	$releaseqty =  $_POST['releaseqty'];
 	$releasedate = date("Y/m/d");
-	$releaseflag = "10";
+	$releaseflag = "11";
 	
 	$query = "SELECT count(*) FROM RELEASE";
 	$s = oci_parse($conn,$query);

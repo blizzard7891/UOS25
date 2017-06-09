@@ -149,7 +149,7 @@
 						{
 							while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
 							{
-								echo "<tr id='a' onclick='loadTd(this)'>";
+								echo "<tr onclick='loadTd(this)'>";
 								foreach ($row as $item) 
 								{
 									echo "<td>".($item?htmlentities($item):'')."</td>";
