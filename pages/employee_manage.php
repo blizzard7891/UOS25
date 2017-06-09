@@ -106,7 +106,7 @@
               </tr>
             </thead>
             <tbody>
-          <?
+          <?php
             include_once("db.php");
 
 

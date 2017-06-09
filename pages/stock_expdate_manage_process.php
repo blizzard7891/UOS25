@@ -49,6 +49,16 @@
 
 			oci_execute($s);
 			oci_free_statement($s);
+			
+			$query = "UPDATE PRODUCT SET stock_qty = stock_qty-:releaseqty WHERE prod_num = :releaseproduct";
+			
+			$s = oci_parse($conn,$query);
+
+			oci_bind_by_name($s, ':releaseproduct', $releaseproduct);
+			oci_bind_by_name($s, ':releaseqty', $releaseqty);
+
+			oci_execute($s);
+			oci_free_statement($s);
 		}
 	}
 
