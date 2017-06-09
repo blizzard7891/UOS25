@@ -133,13 +133,19 @@
 					<br>
 					<label class="mr-2">총 수량: </label>
 					<label class="mr-2"><?php echo $countsum?> 개</label>
+					
 					<br>
 					<label class="mr-2">총 금액: </label>
 					<label class="mr-2"><?php echo $pricesum?> 원</label>
+					
 
 				</div>
 				<div class="pull-right mt-3">
-					<button type="submit" class="btn btn-primary">주문</button>
+				<form method="POST" action="order_product_process.php">
+					<button type="submit" class="btn btn-primary" name="type" value="주문">주문</button>
+					<input type="hidden" name="countsum" value="<?php echo $countsum; ?>">
+					<input type="hidden" name="pricesum" value="<?php echo $pricesum; ?>">
+				</form>
 				</div>
 			</div>
 		</div>
