@@ -129,8 +129,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr><td>dd</td><td>dd</td><td>dd</td><td>dd</td><td>dd</td></tr>
-                      <!-- <?php
+                      <?php
                       $stid = oci_parse($conn, 'SELECT COUNT(*) FROM PRODUCT') or die('oci parse error: '.oci_error($conn));
                       if(oci_execute($stid) == false) die("oci query error [$query] message : ".oci_error($stid));
                       while (($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
@@ -177,7 +176,7 @@
                     echo "<td>{$res1['STOCK_QTY']}</td>";
                     echo "</tr>";
                 }
-                ?> -->
+                ?>
             </tbody>
         </table>
     </div>

@@ -42,7 +42,7 @@ if(!empty($_POST['pname']) && !empty($_POST['ptype']) && !empty($_POST['supplier
 :name,
 :price,
 :wprice,
-TO_DATE(:dat,'yymmdd'),
+:expdate,
 :ptype_num,
 :supl_num,
 '0'
@@ -63,7 +63,7 @@ oci_bind_by_name($stid2, ':count', $pnum);
 oci_bind_by_name($stid2, ':name', $pname);
 oci_bind_by_name($stid2, ':price', $price);
 oci_bind_by_name($stid2, ':wprice', $wprice);
-oci_bind_by_name($stid2, ':dat', $limit);
+oci_bind_by_name($stid2, ':expdate', $limit);
 oci_bind_by_name($stid2, ':ptype_num', $ptype_num);
 oci_bind_by_name($stid2, ':supl_num', $supl_num);
 
