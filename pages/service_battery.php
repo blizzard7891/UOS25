@@ -111,8 +111,7 @@
 								</div>
 								<div class="pull-right">
 									<strong class="mr-2">금액 : <span id="amount">0 원</span> </strong>
-									<button type="submit" class="btn btn-primary mr-3" name="type" value="1">대여</button>	
-									<button type="submit" class="btn btn-primary" name="type" value="2">반납</button>	
+									<button type="submit" class="btn btn-primary mr-3" name="type" value="1">대여</button>
 									<input type="hidden" id="rentalprice" name="rentalprice">
 								</div>
 							</div>
@@ -130,15 +129,15 @@
     			<strong>배터리 대여상황</strong>
     		</div>
     		<div class="panel-body">
-				<table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable">
+				<table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable" style="text-align: center">
 					<thead>
 						<tr>
-							<th>관리번호</th>
-							<th>호환기종</th>
-							<th>대여일자</th>
-							<th>대여기간(일)</th>
-							<th>전화번호</th>
-							<th>금액</th>
+							<th width="2%">관리번호</th>
+							<th width="2%">호환기종</th>
+							<th width="2%">대여일자</th>
+							<th width="1%">대여기간(일)</th>
+							<th width="2%">전화번호</th>
+							<th width="1%">반납</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -147,14 +146,21 @@
 
 						function do_fetch($s)
 						{
+							$count = 0;
 							while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
-							{
-								echo "<tr onclick='loadTd(this)'>";
+							{	$i = 0;
+								echo "<tr onclick='loadTd(this)' id='tr_".$count."'>";
 								foreach ($row as $item) 
 								{
-									echo "<td>".($item?htmlentities($item):'')."</td>";
+									if($i == 5 && $item != '')
+										echo "<td><button class='btn-danger no-border' onclick='returnbattery(".$count.")'>반납</button></td>";
+									else
+										echo "<td>".($item?htmlentities($item):'')."</td>";
+									
+									$i++;
 								}
 								echo "</tr>";
+								$count++;
 							}
 						}
 
@@ -220,6 +226,30 @@
 		document.getElementById("amount").innerHTML =price + "원";
 		document.getElementById("rentalprice").value = price;
 	});
+		
+	function returnbattery(row) {
+
+	var tr = document.getElementById("tr_"+row);
+	var managenum = tr.cells[0].innerHTML;
+	var form = document.createElement("form");
+	form.setAttribute("method", "post");
+	form.setAttribute("action", "./service_battery_process.php");
+
+	var hiddenField = document.createElement("input");
+	hiddenField.setAttribute("type", "hidden");
+	hiddenField.setAttribute("name", "managenum");
+	hiddenField.setAttribute("value", managenum);
+	var returnField = document.createElement("input");
+	returnField.setAttribute("type", "hidden");
+	returnField.setAttribute("name", "type");
+	returnField.setAttribute("value", "2");
+	form.appendChild(hiddenField);
+	form.appendChild(returnField);
+	document.body.appendChild(form);
+
+	alert(managenum+"배터리 반납처리되었습니다");
+	form.submit();
+      }
 		
     document.onkeydown = trapRefresh;
     function trapRefresh()

@@ -104,10 +104,7 @@
                             		<?php
 									include_once("./db.php");
 
-									$query = "SELECT 
-									PROD_NUM,
-									PROD_NAME
-									FROM PRODUCT";
+									$query = "SELECT PROD_NUM,PROD_NAME FROM PRODUCT WHERE std_expdate is null";
 
 									$s = oci_parse($conn,$query);
 									oci_execute($s);
