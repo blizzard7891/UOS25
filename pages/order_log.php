@@ -70,22 +70,37 @@
 							<th>주문번호</th>
 							<th>주문액</th>
 							<th>주문일자</th>
-							<th>입고여부</th>
 						</tr>
    					</thead>
    					<tbody>
-   						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
-  						<tr>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-							<td>#</td>
-						</tr>
+            <?php
+              include_once("db.php");
+
+              function do_fetch($s)
+              {
+                while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+                {
+                  echo "<tr>";
+                  foreach ($row as $item) 
+                  {
+                    echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
+                  }
+                  echo "</tr>";
+                }
+              }
+
+              $query = "SELECT ORDER_NUM,ORDER_AMT, TO_CHAR(ORDER_DATE,'YYYY/MM/DD') FROM ORDER_INFO";
+              $s = oci_parse($conn,$query);
+
+              oci_execute($s);
+              do_fetch($s);
+              oci_free_statement($s);
+
+
+              oci_close($conn);
+
+
+              ?>
    					</tbody>
    				</table>
    		</div>

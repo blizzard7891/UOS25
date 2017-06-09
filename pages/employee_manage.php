@@ -29,6 +29,7 @@
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="../css/content.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="whitebody">
@@ -101,12 +102,31 @@
                 <th>주소</th>
                 <th>생년월일</th>
                 <th>고용일자</th>
-                <th>해고일자</th>
+                <th>퇴사일자</th>
               </tr>
             </thead>
             <tbody>
           <?
             include_once("db.php");
+
+
+            function do_fetch($s)
+              {
+                 $count = 0;
+                while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+                {
+                  
+                  echo "<tr id="."tr_".$count.">";
+                  foreach ($row as $item) 
+                  {
+                    echo "<td>".($item?htmlentities($item):"<button onclick=discharge(".$count.");>퇴사처리</button>")."</td>";
+                  }
+                  echo "</tr>";
+                 $count = $count + 1;
+                }
+              }
+
+
             $stid = oci_parse($conn, 'SELECT COUNT(*) FROM EMPLOYEE') or die('oci parse error: '.oci_error($conn));
             if(oci_execute($stid) == false) die("oci query error [$query] message : ".oci_error($stid));
             while (($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
@@ -114,36 +134,43 @@
             }
             oci_free_statement($stid);
 
-            $query = "SELECT * FROM EMPLOYEE";
-            $stid = oci_parse($conn, $query) or die('oci parse error: '.oci_error($conn));
-            if(oci_execute($stid) == false) die("oci query error [$query] message : ".oci_error($stid));
-            while (($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
-              if(isset($res['DISCHARGE_DATE']))
-              {
-                $ddate = $res['DISCHARGE_DATE'];
-                
-              }else
-              {
-                $ddate = '#';
-              }
-              echo "<tr>";
-              echo "<td> {$res['EMPLOYEE_NUM']} </td>";
-              echo "<td> {$res['NAME']} </td>";
-              echo "<td> {$res['RANK']} </td>";
-              echo "<td> {$res['PHONE_NUM']} </td>";
-              echo "<td> {$res['ADR']} </td>";
-              echo "<td> {$res['BIRTH']} </td>";
-              echo "<td> {$res['EMPLOYMENT_DATE']} </td>";
-              echo "<td> $ddate </td>";
-              echo "</tr>";
-            }
+            $query = "SELECT EMPLOYEE_NUM, NAME, RANK, PHONE_NUM, ADR, TO_CHAR(BIRTH, 'YYMMDD'), TO_CHAR(EMPLOYMENT_DATE,'YYYY/MM/DD'), TO_CHAR(DISCHARGE_DATE,'YYYY/MM/DD') FROM EMPLOYEE";
+            $s = oci_parse($conn,$query);
+
+              oci_execute($s);
+              do_fetch($s);
+              oci_free_statement($s);
+
+
+              oci_close($conn);
           ?>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-   
+    <script>
+      function discharge(row) {
+
+        var tr = document.getElementById("tr_"+row);
+        var empnum = tr.cells[0].innerHTML;
+        var empname = tr.cells[1].innerHTML;
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "./discharge_process.php");
+
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "empnum");
+        hiddenField.setAttribute("value", empnum);
+        form.appendChild(hiddenField);
+        document.body.appendChild(form);
+
+        alert(empname+" 은 퇴사처리되었습니다");
+        form.submit();
+        //location.replace('./discharge_process.php');
+      }
+    </script>
     <!-- jQuery -->
     <script src="../js/jquery.js"></script>
     <!-- Bootstrap Core JavaScript -->
