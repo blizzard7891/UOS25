@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-lg-12">
-        <div class="panel panel-default">
+        <div class="panel panel-blue">
             <div class="panel-heading">
                 <strong>신제품 입력</strong>
             </div>
@@ -110,7 +110,7 @@
     </div>
 
     <div class="col-lg-12">
-        <div class="panel panel-default">
+        <div class="panel panel-blue">
             <div class="panel-heading">
                 <strong>판매상품 목록</strong>
             </div>

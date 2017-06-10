@@ -38,7 +38,7 @@
    </div>
    
    <div class="col-lg-12">
-   	<div class="panel panel-default">
+   	<div class="panel panel-blue">
    		<div class="panel-heading">
    			<strong>주문내역</strong>
    		</div>

@@ -38,7 +38,7 @@
    </div>
    
    <div class="col-lg-6">
-    <div class="panel panel-default">
+    <div class="panel panel-blue">
       <div class="panel-heading">
         <strong>품목분류 입력</strong>
       </div>
@@ -61,7 +61,7 @@
    </div>
    
    <div class="col-lg-6">
-    <div class="panel panel-default">
+    <div class="panel panel-blue">
       <div class="panel-heading">
       <strong>품목분류 목록</strong>
     </div>

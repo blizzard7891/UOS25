@@ -210,6 +210,6 @@
 
     
         
-    // echo( "<script>location.replace('./sales_insert.php');</script>" );
+     echo( "<script>location.replace('./sales_insert.php');</script>" );
     
 ?>
