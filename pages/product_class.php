@@ -75,7 +75,7 @@
           </tr>
         </thead>
         <tbody>
-        <?
+        <?php
             include_once("db.php");
             
             $query1 = "SELECT * FROM PRODUCT_CLASS";
