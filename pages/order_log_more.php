@@ -79,15 +79,15 @@ window.opener.location.reload();
 
        if(is_null($flag)){
         $id = $count."입고전";
-        echo "<td>";
+        echo "<td style=\"text-align: center\">";
         echo "<input type=\"hidden\" value=\"입고전\" id=$id>";
-        echo "<button onclick=enter(".$count.");>입고처리</button><button onclick=order_return($count);>반품요청</button></td>";
+        echo "<button onclick=enter(".$count."); class='btn btn-danger no-border'>입고처리</button>&nbsp;&nbsp;<button onclick=order_return($count); class='btn btn-danger no-border'>반품요청</button></td>";
       }
       else {
         $id = $count."입고후";
-        echo "<td>";
+        echo "<td style=\"text-align: center\">";
         echo "<input type=\"hidden\" value=\"입고후\" id=$id>";
-        echo "입고&nbsp;&nbsp;&nbsp;&nbsp;<button onclick=order_return($count);>반품요청</button></td>";
+        echo "입고&nbsp;&nbsp;&nbsp;&nbsp;<button onclick=order_return($count); class='btn btn-danger no-border'>반품요청</button></td>";
       }
 
       echo "</tr>";
