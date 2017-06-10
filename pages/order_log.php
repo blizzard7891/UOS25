@@ -128,14 +128,15 @@
 
     function more_info(row) {
 
-         
+         var win = window.open('about:blank', 'viewer', 'width=800,height=1000');
+
 
          var tr = document.getElementById("tr_"+row);
          var onum = tr.cells[0].innerHTML;
          var form = document.createElement("form");
          form.setAttribute("name", "myform")
          form.setAttribute("method", "post");
-         form.setAttribute("action", "./order_log_more.php");
+         //form.setAttribute("action", "./order_log_more.php");
 
          var hiddenField = document.createElement("input");
          hiddenField.setAttribute("type", "hidden");
@@ -144,7 +145,11 @@
          form.appendChild(hiddenField);
          document.body.appendChild(form);
 
-         form.submit();
+         var frm = document.myform;
+         frm.action = './order_log_more.php';
+         frm.target = "viewer";
+         frm.method = "post";
+         frm.submit();
 
       }
 

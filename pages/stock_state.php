@@ -102,10 +102,9 @@
                             	<label>품목번호</label>
                             	<select name="releaseproduct" class="form-control" required>
                             		<?php
-									include_once("./db.php");
+									include_once("db.php");
 
 									$query = "SELECT PROD_NUM,PROD_NAME FROM PRODUCT WHERE std_expdate is null";
-
 									$s = oci_parse($conn,$query);
 									oci_execute($s);
 									do_fetch1($s);
