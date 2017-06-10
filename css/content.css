@@ -16,3 +16,7 @@ body::-webkit-scrollbar {
 	border: 0px;
 	box-shadow: 0px 0px;
 }
+
+.td-p0{
+	padding: 2px !important;
+}

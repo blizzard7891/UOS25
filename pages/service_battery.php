@@ -153,7 +153,7 @@
 								foreach ($row as $item) 
 								{
 									if($i == 5 && $item != '')
-										echo "<td><button class='btn-danger no-border' onclick='returnbattery(".$count.")'>반납</button></td>";
+										echo "<td class='td-p0'><button class='btn btn-danger no-border' onclick='returnbattery(".$count.")'>반납</button></td>";
 									else
 										echo "<td>".($item?htmlentities($item):'')."</td>";
 									
