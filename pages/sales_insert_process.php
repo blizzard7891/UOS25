@@ -170,8 +170,9 @@
             $releasenum = $row['COUNT(*)']+1;
             oci_free_statement($s3);
 
+
             $flag = '00';
-            $query = "INSERT INTO RELEASE(SEQ_NUM, PROD_NUM, REL_DATE, REL_GROUP, QTY ) VALUES ('$releasenum','$prodnum',TO_DATE(:wdate,'yyyy/mm/dd'),'$flag','$saleqty')";
+            $query = "INSERT INTO RELEASE(SEQ_NUM, PROD_NUM, REL_DATE, REL_GROUP, QTY ) VALUES ('$releasenum','$prodnum','TO_DATE(:wdate,'yyyy/mm/dd')','$flag','$saleqty')";
             $s4 = oci_parse($conn,$query);
             oci_bind_by_name($s4, ':wdate', $date);
             oci_execute($s4);
