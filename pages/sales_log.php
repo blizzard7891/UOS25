@@ -63,7 +63,12 @@
             // oci_execute($s);
             // oci_free_statement($s);
             // oci_close($conn);
-
+// include_once("./db.php");
+//             $query = "DELETE FROM SALE_LIST";
+//             $s = oci_parse($conn,$query);
+//             oci_execute($s);
+//             oci_free_statement($s);
+//             oci_close($conn);
 
             include_once("./db.php");
 
