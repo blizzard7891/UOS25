@@ -145,25 +145,26 @@
             $saleamount=$row['ATT5'];
             
             
+            
             $query = "SELECT STD_EXPDATE FROM PRODUCT WHERE PROD_NUM='$prodnum'" ;   
             $s1 = oci_parse($conn,$query);
             oci_execute($s1);
-            $row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC);
+            $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
             $expdate = $row['STD_EXPDATE'];
             oci_free_statement($s1);
 
             $query = "INSERT INTO SALE_LIST(PROD_NUM, SALE_NUM, SALE_QTY, SALE_AMOUNT, EXPDATE  )VALUES (:prodnum, :salenum, :saleqty, :saleamount, :expdate)";
-            $s1 = oci_parse($conn,$query);
+            $s2 = oci_parse($conn,$query);
             
 
-            oci_bind_by_name($s1, ':prodnum', $prodnum);//
-            oci_bind_by_name($s1, ':salenum', $salenum);
-            oci_bind_by_name($s1, ':saleqty', $saleqty);///
-            oci_bind_by_name($s1, ':saleamount', $saleamount);//
-            oci_bind_by_name($s1, ':expdate', $expdate);
+            oci_bind_by_name($s2, ':prodnum', $prodnum);//
+            oci_bind_by_name($s2, ':salenum', $salenum);
+            oci_bind_by_name($s2, ':saleqty', $saleqty);///
+            oci_bind_by_name($s2, ':saleamount', $saleamount);//
+            oci_bind_by_name($s2, ':expdate', $expdate);
           
-            oci_execute($s1);
-            oci_free_statement($s1);
+            oci_execute($s2);
+            oci_free_statement($s2);
             
         
         }
