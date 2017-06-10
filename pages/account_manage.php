@@ -135,7 +135,7 @@
 							}
 						}
 
-						$query = "SELECT seq_num,TO_CHAR(change_date,'YYYY/MM/DD'),description,flag,pay_method,amount,remain_amount FROM MONEY_MANAGEMENT WHERE pay_method ='00'";
+						$query = "SELECT seq_num,TO_CHAR(write_date,'YYYY/MM/DD'),description,write_group,pay_method,amount,remain_amount FROM MONEY_MANAGEMENT WHERE pay_method ='00'";
 						$s = oci_parse($conn,$query);
 						oci_execute($s);
 						do_fetch($s);
@@ -170,7 +170,7 @@
 						<?php
 						include_once("./db.php");
 
-						$query = "SELECT seq_num,TO_CHAR(change_date,'YYYY/MM/DD'),description,flag,pay_method,amount,remain_amount FROM MONEY_MANAGEMENT WHERE pay_method ='01'";
+						$query = "SELECT seq_num,TO_CHAR(write_date,'YYYY/MM/DD'),description,write_group,pay_method,amount,remain_amount FROM MONEY_MANAGEMENT WHERE pay_method ='01'";
 						$s = oci_parse($conn,$query);
 						oci_execute($s);
 						do_fetch($s);

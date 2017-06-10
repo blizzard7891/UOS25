@@ -130,16 +130,14 @@
     $row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC);
     $salelistnum = $row['COUNT(ATT1)'];
     oci_free_statement($s);
-    
 
-
-    for($i = 0 ;$i < $salelistnum ; $i++){
-    
+   
         $query = "SELECT ATT6, ATT4, ATT5  FROM TEMP" ;   
         $s = oci_parse($conn,$query);
         oci_execute($s);
 
         while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC)){
+
             $prodnum=$row['ATT6'];
             $saleqty=$row['ATT4'];
             $saleamount=$row['ATT5'];
@@ -153,9 +151,8 @@
             $expdate = $row['STD_EXPDATE'];
             oci_free_statement($s1);
 
-            $query = "INSERT INTO SALE_LIST(PROD_NUM, SALE_NUM, SALE_QTY, SALE_AMOUNT, EXPDATE  )VALUES (:prodnum, :salenum, :saleqty, :saleamount, :expdate)";
+            $query = "INSERT INTO SALE_LIST(PROD_NUM, SALE_NUM, SALE_QTY, SALE_AMOUNT, EXPDATE  ) VALUES (:prodnum, :salenum, :saleqty, :saleamount, :expdate)";
             $s2 = oci_parse($conn,$query);
-            
 
             oci_bind_by_name($s2, ':prodnum', $prodnum);//
             oci_bind_by_name($s2, ':salenum', $salenum);
@@ -165,13 +162,39 @@
           
             oci_execute($s2);
             oci_free_statement($s2);
-            
-        
+
+            $query = "SELECT count(*) FROM RELEASE";
+            $s3 = oci_parse($conn,$query);
+            oci_execute($s3);
+            $row = oci_fetch_array($s3,OCI_RETURN_NULLS + OCI_ASSOC);
+            $releasenum = $row['COUNT(*)']+1;
+            oci_free_statement($s3);
+
+            $flag = '00';
+            $query = "INSERT INTO RELEASE(SEQ_NUM, PROD_NUM, REL_DATE, REL_GROUP, QTY ) VALUES ('$releasenum','$prodnum',TO_DATE(:wdate,'yyyy/mm/dd'),'$flag','$saleamount')";
+            $s4 = oci_parse($conn,$query);
+            oci_bind_by_name($s4, ':wdate', $date);
+            oci_execute($s4);
+            oci_free_statement($s4);
         }
         oci_free_statement($s);
 
 
-    }
+    $query = "SELECT count(*) FROM SALE";
+    $s = oci_parse($conn,$query);
+    oci_execute($s);
+    $row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC);
+    $receiptnum = $row['COUNT(*)'];
+    oci_free_statement($s);
+    
+    $flag='0';
+    $query = "INSERT INTO RECEIPT(RECEIPT_NUM, RECEIPT_FLAG, SALE_NUM ) VALUES ('$receiptnum','$flag','$salenum')";
+    $s = oci_parse($conn,$query);
+    oci_execute($s);
+    oci_free_statement($s);
+ 
+    
+
 
     $query = "DELETE FROM TEMP";
     $s = oci_parse($conn,$query);
@@ -187,6 +210,6 @@
 
     
         
-    echo( "<script>location.replace('./sales_insert.php');</script>" );
+    // echo( "<script>location.replace('./sales_insert.php');</script>" );
     
 ?>
