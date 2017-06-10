@@ -38,7 +38,7 @@
 </div>
 
 <div class="col-lg-12">
-  <div class="panel panel-default">
+  <div class="panel panel-blue">
     <div class="panel-heading">
       <strong>직원정보 입력</strong>
     </div>
@@ -97,7 +97,7 @@
 </div>
 
 <div class="col-lg-12">
-  <div class="panel panel-default">
+  <div class="panel panel-blue">
     <div class="panel-heading">
       <strong>직원 정보</strong>
     </div>
@@ -129,7 +129,7 @@
             echo "<tr id="."tr_".$count.">";
             foreach ($row as $item) 
             {
-              echo "<td>".($item?htmlentities($item):"<button onclick=discharge(".$count.");>퇴사처리</button>")."</td>";
+              echo "<td style=\"text-align: center\">".($item?htmlentities($item):"<button onclick=discharge(".$count."); class='btn btn-danger no-border' class=\"td-p0\">퇴사처리</button>")."</td>";
             }
             echo "</tr>";
             $count = $count + 1;
