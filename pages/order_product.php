@@ -34,7 +34,7 @@
 	</div>
 
 	<div class="col-lg-6">
-		<div class="panel panel-default">
+		<div class="panel panel-blue">
 			<div class="panel-heading">
 				<strong>주문입력</strong>
 			</div>
@@ -75,7 +75,7 @@
 	</div>
 
 	<div class="col-lg-12">
-		<div class="panel panel-default">
+		<div class="panel panel-blue">
 			<div class="panel-body">
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered table-hover mb-0">

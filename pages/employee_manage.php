@@ -38,7 +38,7 @@
    </div>
    
    <div class="col-lg-12">
-    <div class="panel panel-default">
+    <div class="panel panel-blue">
       <div class="panel-heading">
         <strong>직원정보 입력</strong>
       </div>
@@ -87,7 +87,7 @@
     </div>
     
     <div class="col-lg-12">
-      <div class="panel panel-default">
+      <div class="panel panel-blue">
         <div class="panel-heading">
           <strong>직원 정보</strong>
         </div>
