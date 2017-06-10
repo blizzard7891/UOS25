@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>영수증</title>
+    <title>환불내역</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.css" rel="stylesheet">
@@ -34,49 +34,74 @@
 <body class="whitebody">
 
    <div class="col-lg-12">
-   	<h1 class="page-header">영수증</h1>
+   	<h1 class="page-header">환불내역</h1>
    </div>
    
    <div class="col-lg-12">
    	<div class="panel panel-default">
    		<div class="panel-heading">
-   			<strong>영수증 내역</strong>
+   			<strong>환불내역</strong>
    		</div>
    		<div class="panel-body">
    			<table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable">
    				<thead>
    					<tr>
-   						<th>영수증번호</th>
-   						<th>발급일자</th>
+   						<th>환불번호</th>
+   						<th>환불일자</th>
+   						<th>환불금액</th>
    						<th>판매번호</th>
-   						<th>판매금액</th>
+   						<th>처리자</th>
    					</tr>
    				</thead>
    				<tbody>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
+   					<?php
+
+            // include_once("./db.php");
+            // $query = "INSERT INTO REFUND(refund_num, refund_date, sale_num, employee_num  )VALUES ('1', '11-JUN-11','2','2017001')";
+            // $s = oci_parse($conn,$query);
+            // oci_execute($s);
+            // oci_free_statement($s);
+            // oci_close($conn);
+//             include_once("./db.php");
+//             $query = "DELETE FROM REFUND";
+//             $s = oci_parse($conn,$query);
+//             oci_execute($s);
+//             oci_free_statement($s);
+//             oci_close($conn);
+
+            include_once("./db.php");
+
+            function do_fetch($s)
+            {
+                while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+                {
+
+                $sale_num=$row['SALE_NUM'];
+                $conn = oci_connect('juneui', 'helloworld', 'juneui.cwpxsqzgvzt5.ap-northeast-2.rds.amazonaws.com:1521/orcl', 'UTF8');
+                $query = "SELECT sale_amount FROM SALE WHERE sale_num=1 ";
+                $s1 = oci_parse($conn,$query);
+                oci_execute($s1);
+                $row1 = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
+                oci_free_statement($s1);
+
+                echo "<tr>";
+                echo '<td>'; echo $row['REFUND_NUM']; echo '</td>';
+                echo '<td>'; echo $row['REFUND_DATE']; echo '</td>';
+                echo '<td>'; echo $row1['SALE_AMOUNT']; echo'원</td>';
+                echo '<td>'; echo $row['SALE_NUM']; echo'</td>';
+                echo '<td>'; echo $row['EMPLOYEE_NUM']; echo'</td>';
+                echo "</tr>";
+              
+                }
+            }
+
+            $query = "SELECT refund_num, refund_date, sale_num, employee_num FROM refund";
+            $s = oci_parse($conn,$query);
+            oci_execute($s);
+            do_fetch($s);
+            oci_free_statement($s);
+            oci_close($conn);
+            ?>
    				</tbody>
    			</table>
    		</div>
