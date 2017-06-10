@@ -55,38 +55,44 @@
    					</tr>
    				</thead>
    				<tbody>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
-   					<tr>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   						<td>#</td>
-   					</tr>
+
+          <?php
+            // include_once("./db.php");
+            // $query = "DELETE FROM SALE";
+            // $s = oci_parse($conn,$query);
+            // oci_execute($s);
+            // oci_free_statement($s);
+            // oci_close($conn);
+
+
+            include_once("./db.php");
+
+            function do_fetch($s)
+            {
+              while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
+              {
+                echo "<tr>";
+
+                echo '<td>SL0000'; echo $row['SALE_NUM']; echo '</td>';
+                echo '<td>'; echo $row['SALE_DATE']; echo'</td>';
+                if($row['PAY_METHOD']=='00') echo "<td>현금</td>";
+                else echo "<td>카드</td>";
+                echo '<td>'; echo $row['SALE_AMOUNT']; echo'원</td>';
+                if($row['REFUND_FLAG']==0) echo '<td>환불안됨</td>';
+                else echo "<td>환불됨</td>";
+                echo '<td>'; echo $row['EMPLOYEE_NUM']; echo'</td>';
+                echo "</tr>";
+              }
+            }
+
+            $query = "SELECT sale_num, sale_date, pay_method, sale_amount, refund_flag, employee_num FROM SALE";
+            $s = oci_parse($conn,$query);
+            oci_execute($s);
+            do_fetch($s);
+
+            oci_close($conn);
+            ?>
+   					
    				</tbody>
    			</table>
    		</div>
