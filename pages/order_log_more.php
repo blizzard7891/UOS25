@@ -149,45 +149,51 @@ window.opener.location.reload();
 
   function enter(row){
 
-   var tr = document.getElementById("tr_"+row);
-   var onum = tr.cells[0].innerHTML;
-   var pname = tr.cells[1].innerHTML;
-   var enter_quantity = tr.cells[2].innerHTML;
-   var date = getTimeStamp();
+    if(confirm("입고처리 하시겠습니까??")==true){
+      var tr = document.getElementById("tr_"+row);
+      var onum = tr.cells[0].innerHTML;
+      var pname = tr.cells[1].innerHTML;
+      var enter_quantity = tr.cells[2].innerHTML;
+      var date = getTimeStamp();
 
-   var form = document.createElement("form");
-   form.setAttribute("method", "post");
-   form.setAttribute("action", "./order_enter_process.php");
+      var form = document.createElement("form");
+      form.setAttribute("method", "post");
+      form.setAttribute("action", "./order_enter_process.php");
 
-   var hiddenField1 = document.createElement("input");
-   hiddenField1.setAttribute("type", "hidden");
-   hiddenField1.setAttribute("name", "pname");
-   hiddenField1.setAttribute("value", pname);
-   form.appendChild(hiddenField1);
+      var hiddenField1 = document.createElement("input");
+      hiddenField1.setAttribute("type", "hidden");
+      hiddenField1.setAttribute("name", "pname");
+      hiddenField1.setAttribute("value", pname);
+      form.appendChild(hiddenField1);
 
-   var hiddenField2 = document.createElement("input");
-   hiddenField2.setAttribute("type", "hidden");
-   hiddenField2.setAttribute("name", "enterqty");
-   hiddenField2.setAttribute("value", enter_quantity);
-   form.appendChild(hiddenField2);
+      var hiddenField2 = document.createElement("input");
+      hiddenField2.setAttribute("type", "hidden");
+      hiddenField2.setAttribute("name", "enterqty");
+      hiddenField2.setAttribute("value", enter_quantity);
+      form.appendChild(hiddenField2);
 
-   var hiddenField3 = document.createElement("input");
-   hiddenField3.setAttribute("type", "hidden");
-   hiddenField3.setAttribute("name", "onum");
-   hiddenField3.setAttribute("value", onum);
-   form.appendChild(hiddenField3);
+      var hiddenField3 = document.createElement("input");
+      hiddenField3.setAttribute("type", "hidden");
+      hiddenField3.setAttribute("name", "onum");
+      hiddenField3.setAttribute("value", onum);
+      form.appendChild(hiddenField3);
 
-   document.body.appendChild(form);
+      document.body.appendChild(form);
 
-   alert(pname+" 입고되었습니다 "+date);
-   form.submit();
- }
+      alert(pname+" 입고되었습니다 "+date);
+      form.submit();
+    }else{
+      return;
+    }
 
- function order_return(row){
+  }
 
-  var td1 = document.getElementById(row+"입고후");
-  var td2 = document.getElementById(row+"입고전");
-  var date = getTimeStamp();
+  function order_return(row){
+
+    if(confirm("반품요청 하시겠습니까??")==true){
+      var td1 = document.getElementById(row+"입고후");
+      var td2 = document.getElementById(row+"입고전");
+      var date = getTimeStamp();
   //flag는 입고후 또는 입고전
   if (!td1) {
     var flag = td2.value;}
@@ -231,28 +237,32 @@ window.opener.location.reload();
       alert(pname+" 반품 요청되었습니다 "+date);
       form.submit();
 
-}
+    }
+    else{
+      return;
+    }
+  }
 
-$(document).ready(function() {
-  $('#myTable').DataTable({
-    responsive: true
+  $(document).ready(function() {
+    $('#myTable').DataTable({
+      responsive: true
+    });
   });
-});
 
 
-document.onkeydown = trapRefresh;
-function trapRefresh()
-{
- if (event.keyCode == 116)
- {
-   event.keyCode = 0; 
-   event.cancelBubble = true; 
-   event.returnValue = false;
-   document.location.reload(1);
+  document.onkeydown = trapRefresh;
+  function trapRefresh()
+  {
+   if (event.keyCode == 116)
+   {
+     event.keyCode = 0; 
+     event.cancelBubble = true; 
+     event.returnValue = false;
+     document.location.reload(1);
+   }
  }
-}
 
-function getTimeStamp() {
+ function getTimeStamp() {
   var d = new Date();
 
   var s =

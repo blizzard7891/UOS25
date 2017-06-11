@@ -48,11 +48,11 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>제품명</label>
-                                <input type="text" name="pname" class="form-control">
+                                <input type="text" name="pname" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>제품타입</label>
-                                <select class="form-control" name="ptype">
+                                <select class="form-control" name="ptype" required>
                                     <option value="">제품타입선택</option>
                                     <?php
                                     include_once("db.php");
@@ -69,7 +69,7 @@
                             </div>
                             <div class="form-group">
                                 <label>생산업체</label>
-                                <select class="form-control" name="supplier">
+                                <select class="form-control" name="supplier" required>
                                     <option value="">생산업체선택</option>
                                     <?php
                                     include_once("db.php");
@@ -88,15 +88,15 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>소비자가</label>
-                                <input type="number" name="customer_price" class="form-control">
+                                <input type="number" name="customer_price" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>도매가</label>
-                                <input type="number" name="supplier_price" class="form-control">
+                                <input type="number" name="supplier_price" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>표준유통기한</label>
-                                <input type="number" name="limit" class="form-control">
+                                <input type="number" name="limit" class="form-control" required>
                             </div>
                             <div class="pull-right">
                                 <button type="submit" class="btn btn-primary mr-3">상품입력</button>
