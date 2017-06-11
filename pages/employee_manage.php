@@ -44,25 +44,25 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <form action="employee_manage_process.php" method="POST">
+      <form id="empForm" method="POST" action="./employee_manage_process.php">
           <div class="col-lg-6">
             <div class="form-group">
               <label>이름</label>
-              <input type="text" name="ename" class="form-control">
+              <input type="text" name="ename" class="form-control" required>
             </div>
             <div class="form-group">
               <label>휴대전화</label>
-              <input type="tel" name="ephone" class="form-control" placeholder="010-0000-0000">
+              <input type="tel" name="ephone" class="form-control" placeholder="010-0000-0000" required>
             </div>
             <div class="form-group">
               <label>주소</label>
-              <textarea class="form-control" name="eaddress" rows="3"></textarea>
+              <textarea class="form-control" name="eaddress" rows="3" required></textarea>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="form-group">
               <label>직급</label>
-              <select name="rank" class="form-control">
+              <select name="rank" class="form-control" required>
                 <option value="">직업선택</option>
                 <?php
                 include_once("db.php");
@@ -86,7 +86,7 @@
               <input type="date" name="hire" class="form-control">
             </div>
             <div class="pull-right">
-              <button type="submit" class="btn btn-primary mr-3">직원입력</button>
+              <button onclick="empsubmit();" class="btn btn-primary mr-3" id="btn">직원입력</button>
               <button type="reset" class="btn btn-primary">입력리셋</button>
             </div>
           </div>
@@ -129,7 +129,9 @@
             echo "<tr id="."tr_".$count.">";
             foreach ($row as $item) 
             {
-              echo "<td style=\"text-align: center\">".($item?htmlentities($item):"<button onclick=discharge(".$count."); class='btn btn-danger no-border' class=\"td-p0\">퇴사처리</button>")."</td>";
+              $d1 ="<td>". htmlentities($item)."</td>";
+              $d2 ="<td class='td-p0'><button onclick=discharge(".$count.");>퇴사처리</button></td>";
+              echo ($item?$d1:$d2);
             }
             echo "</tr>";
             $count = $count + 1;
@@ -160,6 +162,18 @@
 </div>
 </div>
 <script>
+
+  function empsubmit(){
+
+     var frm = document.getElementById('empForm');
+
+    if(confirm("직원정보를 올바르게 기입했습니까?")==true){
+      frm.submit();
+    }else {
+      return;
+    }
+
+  }
   function discharge(row) {
 
     var tr = document.getElementById("tr_"+row);
@@ -176,8 +190,15 @@
     form.appendChild(hiddenField);
     document.body.appendChild(form);
 
-    alert(empname+" 은 퇴사처리되었습니다");
-    form.submit();
+    if(confirm("한 번 퇴사처리하면 되돌릴 수 없습니다.\n정말 퇴사처리 하겠습니까??")==true){
+      alert(empname+" 은 퇴사처리되었습니다");
+      form.submit();
+    }
+    else{
+      return;
+    }
+
+    
         //location.replace('./discharge_process.php');
       }
     </script>

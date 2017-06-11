@@ -48,7 +48,7 @@
             <form action="product_class_process.php" method="POST">
               <div class="form-group">
                 <label>분류명</label>
-                <input type="text" class="form-control" name="tname">
+                <input type="text" class="form-control" name="tname" required>
               </div>
               <div class="pull-right">
                 <button type="submit" class="btn btn-primary">분류입력</button>
