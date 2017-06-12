@@ -142,16 +142,24 @@
             $saleqty=$row['ATT4'];
             $saleamount=$row['ATT5'];
             
-            
-            
-            $query = "SELECT STD_EXPDATE FROM PRODUCT WHERE PROD_NUM='$prodnum'" ;   
+            $query = "SELECT ENT_DATE FROM ENTER WHERE PROD_NUM='$prodnum'" ;   
             $s1 = oci_parse($conn,$query);
             oci_execute($s1);
             $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
-            $expdate = $row['STD_EXPDATE'];
+            $entdate=$row['ENT_DATE'];
             oci_free_statement($s1);
+            
+            $query = "SELECT EXPDATE FROM EXP_DATE_MANAGEMENT WHERE ENT_DATE= '$entdate' and PROD_NUM='$prodnum'" ;   
+            $s1 = oci_parse($conn,$query);
+            oci_execute($s1);
+            $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
 
-            $query = "INSERT INTO SALE_LIST(PROD_NUM, SALE_NUM, SALE_QTY, SALE_AMOUNT, EXPDATE  ) VALUES (:prodnum, :salenum, :saleqty, :saleamount,:expdate)";
+            $expdate = $row['EXPDATE'];
+            echo $expdate;
+            oci_free_statement($s1);
+            
+            $query = "INSERT INTO SALE_LIST(PROD_NUM, SALE_NUM, SALE_QTY, SALE_AMOUNT, EXPDATE  ) VALUES (:prodnum, :salenum, :saleqty, 
+                            :saleamount, TO_DATE(:expdate,'yyyy/mm/dd'))";
             $s2 = oci_parse($conn,$query);
 
             oci_bind_by_name($s2, ':prodnum', $prodnum);//
@@ -159,7 +167,6 @@
             oci_bind_by_name($s2, ':saleqty', $saleqty);///
             oci_bind_by_name($s2, ':saleamount', $saleamount);//
             oci_bind_by_name($s2, ':expdate', $expdate);
-          
             oci_execute($s2);
             oci_free_statement($s2);
 
@@ -172,7 +179,7 @@
 
 
             $flag = '00';
-            $query = "INSERT INTO RELEASE(SEQ_NUM, PROD_NUM, REL_DATE, REL_GROUP, QTY ) VALUES ('$releasenum','$prodnum','TO_DATE(:wdate,'yyyy/mm/dd')','$flag','$saleqty')";
+            $query = "INSERT INTO RELEASE(SEQ_NUM, PROD_NUM, REL_DATE, REL_GROUP, QTY ) VALUES ('$releasenum','$prodnum',TO_DATE(:wdate,'yyyy/mm/dd'),'$flag','$saleqty')";
             $s4 = oci_parse($conn,$query);
             oci_bind_by_name($s4, ':wdate', $date);
             oci_execute($s4);
