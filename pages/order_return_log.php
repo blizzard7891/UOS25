@@ -51,6 +51,7 @@
        <th>반품수량</th>
        <th>반품금액</th>
        <th>반품일</th>
+       <th>반품자</th>
      </tr>
    </thead>
    <tbody>
@@ -73,7 +74,7 @@
       }
     }
 
-    $query = "SELECT a.RETURN_NUM, c.PROD_NAME, b.QTY, b.RETURN_AMOUNT,TO_CHAR(a.RETURN_DATE,'YYYY/MM/DD') FROM RETURN a, RETURN_LIST b, PRODUCT c WHERE a.RETURN_NUM = b.RETURN_NUM AND c.PROD_NUM = b.PROD_NUM";
+    $query = "SELECT a.RETURN_NUM, c.PROD_NAME, b.QTY, b.RETURN_AMOUNT,TO_CHAR(a.RETURN_DATE,'YYYY/MM/DD'), d.NAME FROM RETURN a, RETURN_LIST b, PRODUCT c, EMPLOYEE d WHERE a.RETURN_NUM = b.RETURN_NUM AND c.PROD_NUM = b.PROD_NUM AND a.EMPLOYEE_NUM = d.EMPLOYEE_NUM";
     $s = oci_parse($conn,$query);
 
     oci_execute($s);
