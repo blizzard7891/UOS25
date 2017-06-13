@@ -44,7 +44,7 @@
 						<form action="order_product_process.php" method="POST">
 							<div class="form-group">
 								<label>제품명</label>
-								<select class="form-control" name="pname" required>
+								<select class="form-control" name="pname">
 									<option value="">제품선택</option>
 									<?php
 									include_once("db.php");
@@ -61,7 +61,7 @@
 							</div>
 							<div class="form-group">
 								<label>수량</label>
-								<input class="form-control" name="quantity" required>
+								<input class="form-control" name="quantity">
 							</div>
 							<div class="pull-right">
 								<button type="submit" class="btn btn-primary mr-3" name="type" value="주문추가">추가하기</button>

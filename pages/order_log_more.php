@@ -70,14 +70,20 @@ window.opener.location.reload();
 
       while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
       {
+
        $flag = $row['ENT_FLAG'];
+       $return_flag = $row['RETURN_NUM'];
        echo "<tr id="."tr_".$count.">";
        echo "<td>{$row['ORDER_NUM']}</td>";
        echo "<td>{$row['PROD_NAME']}</td>";
        echo "<td>{$row['ORDER_QTY']}</td>";
        echo "<td>{$row['ORDER_AMT']}</td>";
 
-       if(is_null($flag)){
+       if(!is_null($return_flag)){
+        echo "<td style=\"text-align: center\">반품요청됨</td>";
+        $count = $count + 1;
+        continue;
+      }else if(is_null($flag)){
         $id = $count."입고전";
         echo "<td style=\"text-align: center\">";
         echo "<input type=\"hidden\" value=\"입고전\" id=$id>";
@@ -87,7 +93,7 @@ window.opener.location.reload();
         $id = $count."입고후";
         echo "<td style=\"text-align: center\">";
         echo "<input type=\"hidden\" value=\"입고후\" id=$id>";
-        echo "입고&nbsp;&nbsp;&nbsp;&nbsp;<button onclick=order_return($count); class='btn btn-danger no-border'>반품요청</button></td>";
+        echo "입고됨&nbsp;&nbsp;&nbsp;&nbsp;<button onclick=order_return($count); class='btn btn-danger no-border'>반품요청</button></td>";
       }
 
       echo "</tr>";
@@ -97,7 +103,7 @@ window.opener.location.reload();
   }
 
   $onum = $_POST['onum'];
-  $query = "SELECT a.ORDER_NUM, b.PROD_NAME, a.ORDER_QTY, a.ORDER_AMT, a.ENT_FLAG FROM ORDER_LIST a, PRODUCT b WHERE a.PROD_NUM = b.PROD_NUM AND a.ORDER_NUM = :onum";
+  $query = "SELECT a.ORDER_NUM, b.PROD_NAME, a.ORDER_QTY, a.ORDER_AMT, a.ENT_FLAG, a.RETURN_NUM FROM ORDER_LIST a, PRODUCT b WHERE a.PROD_NUM = b.PROD_NUM AND a.ORDER_NUM = :onum";
   $s = oci_parse($conn,$query);
   oci_bind_by_name($s, ':onum', $onum);
   oci_execute($s);
@@ -201,6 +207,7 @@ window.opener.location.reload();
       var flag = td1.value;}
 
       var tr = document.getElementById("tr_"+row);
+      var onum = tr.cells[0].innerHTML;
       var pname = tr.cells[1].innerHTML;
       var return_quantity = tr.cells[2].innerHTML;
       var return_amount = tr.cells[3].innerHTML;
@@ -232,6 +239,12 @@ window.opener.location.reload();
       hiddenField4.setAttribute("name", "flag");
       hiddenField4.setAttribute("value", flag);
       form.appendChild(hiddenField4);
+
+      var hiddenField5 = document.createElement("input");
+      hiddenField5.setAttribute("type", "hidden");
+      hiddenField5.setAttribute("name", "onum");
+      hiddenField5.setAttribute("value", onum);
+      form.appendChild(hiddenField5);
 
       document.body.appendChild(form);
       alert(pname+" 반품 요청되었습니다 "+date);

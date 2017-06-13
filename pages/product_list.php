@@ -96,7 +96,7 @@
                             </div>
                             <div class="form-group">
                                 <label>표준유통기한</label>
-                                <input type="number" name="limit" class="form-control" required>
+                                <input type="number" name="limit" class="form-control">
                             </div>
                             <div class="pull-right">
                                 <button type="submit" class="btn btn-primary mr-3">상품입력</button>
