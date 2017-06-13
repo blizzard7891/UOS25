@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include_once("./db.php");
 
 $onum = $_POST['onum'];
@@ -28,7 +30,7 @@ $returndate = date('y/m/d');
 $rqty = $_POST['returnqty'];
 $ramt = $_POST['returnamt'];
 $flag = $_POST['flag'];
-$enum = "170601";
+$enum = $_SESSION['empnum'];
 
 
 
