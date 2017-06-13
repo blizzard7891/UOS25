@@ -119,7 +119,9 @@
                   echo "<tr id="."tr_".$count.">";
                   foreach ($row as $item) 
                   {
-                    echo "<td>".($item?htmlentities($item):"<button onclick=discharge(".$count.");>퇴사처리</button>")."</td>";
+                    $d1 ="<td>". htmlentities($item)."</td>";
+                    $d2 ="<td class='td-p0'><button onclick=discharge(".$count.");>퇴사처리</button></td>";
+                    echo ($item?$d1:$d2);
                   }
                   echo "</tr>";
                  $count = $count + 1;

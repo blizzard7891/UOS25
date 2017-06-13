@@ -117,9 +117,9 @@
 								{
 									$i++;
 									
-									if($item == $row['FLAG'] && trim($item)==="00" && $i==4)
+									if($item == $row['WRITE_GROUP'] && trim($item)==="00" && $i==4)
 										echo "<td>수입</td>";
-									elseif($item == $row['FLAG'] && trim($item)==="01" && $i==4)
+									elseif($item == $row['WRITE_GROUP'] && trim($item)==="01" && $i==4)
 										echo "<td>지출</td>";
 									elseif($item == $row['PAY_METHOD'] && trim($item)==="00" && $i==5)
 										echo "<td>현금</td>";
@@ -127,6 +127,12 @@
 										echo "<td>카드</td>";
 									elseif($item == $row['REMAIN_AMOUNT'] && $item ==0)
 										echo "<td>0</td>";
+									elseif($i==6 && trim($row['WRITE_GROUP'])==="00")
+										echo "<td class='td-green'>".($item?htmlentities($item):'0')."원</td>";
+									elseif($i==6 && trim($row['WRITE_GROUP'])==="01")
+										echo "<td class='td-red'>".($item?htmlentities($item):'0')."원</td>";
+									elseif($i==7)
+										echo "<td style='text-align:right'>".($item?htmlentities($item):'&nbsp;')."원</td>";
 									else
 										echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
 								}

@@ -65,7 +65,7 @@
 									$query = "SELECT 
 									PROD_NUM,
 									PROD_NAME
-									FROM PRODUCT";
+									FROM PRODUCT WHERE prod_name not in('배터리','택배_6500','택배_8000','택배_9500')";
 
 									$s = oci_parse($conn,$query);
 									oci_execute($s);
@@ -77,7 +77,7 @@
                             </div>
                             <div class="form-group">
                             	<label>수량</label>
-                            	<input name="enterqty" type="number" class="form-control" placeholder="0" required>
+                            	<input name="enterqty" type="number" class="form-control" placeholder="0" min="1" required>
                             </div>
                             <div class="pull-right">
                             	<button type="submit" name="type" value="0" class="btn btn-primary">입고입력</button>
@@ -104,7 +104,7 @@
                             		<?php
 									include_once("db.php");
 
-									$query = "SELECT PROD_NUM,PROD_NAME FROM PRODUCT WHERE std_expdate is null";
+									$query = "SELECT PROD_NUM,PROD_NAME FROM PRODUCT WHERE std_expdate is null or WHERE prod_name not in('배터리','택배_6500','택배_8000','택배_9500')";
 									$s = oci_parse($conn,$query);
 									oci_execute($s);
 									do_fetch1($s);
@@ -115,7 +115,7 @@
                             </div>
                             <div class="form-group">
                             	<label>수량</label>
-                            	<input name="releaseqty" type="number" class="form-control" placeholder="0" required>
+                            	<input name="releaseqty" type="number" class="form-control" placeholder="0" min="1" required>
                             </div>
                             <div class="pull-right">
                             	<button type="submit" name="type" value="1" class="btn btn-primary">출고입력</button>
@@ -171,7 +171,7 @@
                         PROD_NAME,
                         STD_EXPDATE,
                         STOCK_QTY
-                        FROM PRODUCT";
+                        FROM PRODUCT WHERE prod_name not in('배터리','택배_6500','택배_8000','택배_9500')";
 
                         $s = oci_parse($conn,$query);
                         oci_execute($s);

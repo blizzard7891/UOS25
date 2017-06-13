@@ -129,10 +129,12 @@
                             {
 							  if($item == '0')
 								echo "<td>0</td>";
-							  elseif($i==4)
-								echo "<td class='td-p0'><input style='width:3em' type='number' id='amount_".$count."'>
+							  elseif($i==4 && $row['QTY'] >0)
+								echo "<td class='td-p0'><input style='width:3em' min='1' type='number' id='amount_".$count."'>
 							<input type='hidden' id='prodNum_".$count."' value='".$row['PROD_NUM']."'>
-							<button class='btn btn-danger no-border' onclick='release(".$count.")'>출고</button></td>";  
+							<button class='btn btn-danger no-border' onclick='release(".$count.")'>출고</button></td>";
+						      elseif($i==4 && $row['QTY'] <=0)
+								echo "<td> </td>";
 							  else
 								echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
 								

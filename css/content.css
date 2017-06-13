@@ -20,3 +20,13 @@ body::-webkit-scrollbar {
 .td-p0{
 	padding: 2px !important;
 }
+
+.td-green{
+	background-color: rgba(8,183,66,0.28);
+	text-align: right;
+}
+
+.td-red{
+	background-color: rgba(243,64,64,0.28);
+	text-align: right;
+}
