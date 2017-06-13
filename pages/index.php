@@ -1,3 +1,12 @@
+<?php session_start(); ?>
+<?php
+if(!isset($_SESSION['user_id']) || !isset($_SESSION['empnum'])) {
+     echo "<script>alert(\"로그인이 필요합니다\");</script>";
+     echo "<meta http-equiv='refresh' content='0;url=login.html'>";    
+     exit; 
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +61,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="logout_process.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -68,15 +77,15 @@
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
                             </div>
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Home</a>
+                            <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Home</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> 주문반품<span class="fa arrow"></span></a>
@@ -126,29 +135,29 @@
                         <li>
                             <a href="#"><i class="fa fa-inbox fa-fw"></i> 재고관리<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-								<li>
-                            		<a href="#" onclick="changeUrl('stock_state.php')">재고관리</a>
-                            	</li>
                                 <li>
-                                    <a href="#" onclick="changeUrl('stock_expdate_manage.php')">폐기관리</a>
-                                </li>
-                            	<li>
-                            		<a href="#" onclick="changeUrl('stock_enter.php')">입고내역</a>
-                            	</li>
-                            	<li>
-                            		<a href="#" onclick="changeUrl('stock_release.php')">출고내역</a>
-                            	</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" onclick="changeUrl('account_manage.php')">
-                            <i class="fa fa-credit-card fa-fw"></i> 자금관리</a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="changeUrl('closing_account.php')"><i class="fa fa-edit fa-fw"></i> 결산관리</a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="changeUrl('employee_manage.php')">
+                                  <a href="#" onclick="changeUrl('stock_state.php')">재고관리</a>
+                              </li>
+                              <li>
+                                <a href="#" onclick="changeUrl('stock_expdate_manage.php')">폐기관리</a>
+                            </li>
+                            <li>
+                              <a href="#" onclick="changeUrl('stock_enter.php')">입고내역</a>
+                          </li>
+                          <li>
+                              <a href="#" onclick="changeUrl('stock_release.php')">출고내역</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#" onclick="changeUrl('account_manage.php')">
+                        <i class="fa fa-credit-card fa-fw"></i> 자금관리</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="changeUrl('closing_account.php')"><i class="fa fa-edit fa-fw"></i> 결산관리</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="changeUrl('employee_manage.php')">
                             <i class="fa fa-users fa-fw"></i> 직원관리</a>
                         </li>
                         <li>
@@ -170,43 +179,43 @@
         </nav>
 
         <div id="page-wrapper">
-           <div class="row">
-              <div class="col-12">
-              	<iframe src="home.html" class="col-12" width="100%" height="700" frameborder="0" id="main_frame"></iframe>
-              </div>
-           </div>
-        </div>
-        <!-- /#page-wrapper -->
+         <div class="row">
+          <div class="col-12">
+             <iframe src="home.php" class="col-12" width="100%" height="700" frameborder="0" id="main_frame"></iframe>
+         </div>
+     </div>
+ </div>
+ <!-- /#page-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+</div>
+<!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="../js/jquery.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../js/bootstrap.js"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../js/metisMenu.js"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="../js/sb-admin-2.js"></script>
-    
-    <script type="text/javascript">
-		function changeUrl(url)
-		{
-			document.getElementById("main_frame").src = url;
-		}
-		
-		document.onkeydown = trapRefresh;
-		 function trapRefresh()
-		 {
-		  if (event.keyCode == 116)
-		   {
-			   event.keyCode = 0; 
-			   event.cancelBubble = true; 
-			   event.returnValue = false;
-			   document.getElementById("main_frame").contentDocument.location.reload(true);
-		   }
-		 }  
-	</script>
+<!-- jQuery -->
+<script src="../js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="../js/bootstrap.js"></script>
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../js/metisMenu.js"></script>
+<!-- Custom Theme JavaScript -->
+<script src="../js/sb-admin-2.js"></script>
+
+<script type="text/javascript">
+  function changeUrl(url)
+  {
+     document.getElementById("main_frame").src = url;
+ }
+
+ document.onkeydown = trapRefresh;
+ function trapRefresh()
+ {
+    if (event.keyCode == 116)
+    {
+      event.keyCode = 0; 
+      event.cancelBubble = true; 
+      event.returnValue = false;
+      document.getElementById("main_frame").contentDocument.location.reload(true);
+  }
+}  
+</script>
 </body>
 </html>

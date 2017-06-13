@@ -1,11 +1,14 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
 </head>
 <body>
-hello main!
-
+<?php
+echo $_SESSION['user_id']."님 안녕하세요\n";
+echo "사번은 ".$_SESSION['empnum']."입니다";
+?>
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable({

@@ -129,8 +129,8 @@
             echo "<tr id="."tr_".$count.">";
             foreach ($row as $item) 
             {
-              $d1 ="<td>". htmlentities($item)."</td>";
-              $d2 ="<td class='td-p0'><button onclick=discharge(".$count.");>퇴사처리</button></td>";
+              $d1 ="<td style=\"text-align: center\">". htmlentities($item)."</td>";
+              $d2 ="<td class='td-p0' style=\"text-align: center\"><button onclick=discharge(".$count."); class='btn btn-danger no-border'>퇴사처리</button></td>";
               echo ($item?$d1:$d2);
             }
             echo "</tr>";

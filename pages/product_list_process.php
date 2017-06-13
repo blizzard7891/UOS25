@@ -1,7 +1,7 @@
 <?php
 $prevPage = $_SERVER['HTTP_REFERER'];
 include_once("db.php");
-if(!empty($_POST['pname']) && !empty($_POST['ptype']) && !empty($_POST['supplier']) && !empty($_POST['customer_price']) && !empty($_POST['supplier_price']) && !empty($_POST['limit'])){
+if(!empty($_POST['pname']) && !empty($_POST['ptype']) && !empty($_POST['supplier']) && !empty($_POST['customer_price']) && !empty($_POST['supplier_price'])){
 
 	$pname = $_POST['pname'];
 	$ptype = $_POST['ptype'];
