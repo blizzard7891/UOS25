@@ -52,10 +52,18 @@
 							<div class="form-group">
 								<label>호환기종</label>
 								<select name="device" class="form-control" required>
-								<option value="갤럭시S7">갤럭시 S7</option>
 								<option value="갤럭시S8">갤럭시 S8</option>
+								<option value="갤럭시S7">갤럭시 S7</option>
+								<option value="갤럭시S6">갤럭시 S6</option>
+								<option value="갤럭시S5">갤럭시 S5</option>
+								<option value="갤럭시S4">갤럭시 S4</option>
+								<option value="갤럭시노트S6">갤럭시노트 S6</option>
+								<option value="갤럭시노트S3">갤럭시노트 S3</option>
+								<option value="갤럭시노트S2">갤럭시노트 S2</option>
 								<option value="아이폰7">아이폰 7</option>
 								<option value="아이폰6">아이폰 6</option>
+								<option value="아이폰5">아이폰 5</option>
+								<option value="아이폰4">아이폰 4</option>
 								<option value="G5">G5</option>
 								</select>
 							</div>
@@ -92,7 +100,7 @@
 							</div>
 							<div class="form-group">
 								<label>대여 기간(일)</label>
-								<input id="rentalperiod" name="rentalperiod" type="number" class="form-control" required>
+								<input id="rentalperiod" name="rentalperiod" type="number" class="form-control" min="1" required>
 							</div>
 							<div class="form-group">
 								<label>전화 번호</label>
@@ -103,10 +111,10 @@
 								<label>구분</label>
 								<div>
 									<label class="radio-inline">
-										<input type="radio" name="flag" value="cash" checked>현금
+										<input type="radio" name="flag" value="00" checked>현금
 									</label>
 									<label class="radio-inline">
-										<input type="radio" name="flag" value="card">카드
+										<input type="radio" name="flag" value="01">카드
 									</label>
 								</div>
 								<div class="pull-right">
@@ -134,7 +142,8 @@
 						<tr>
 							<th width="2%">관리번호</th>
 							<th width="2%">호환기종</th>
-							<th width="2%">대여일자</th>
+							<th width="1%">대여일자</th>
+							<th width="1%">반납예정일</th>
 							<th width="1%">대여기간(일)</th>
 							<th width="2%">전화번호</th>
 							<th width="1%">반납</th>
@@ -152,7 +161,7 @@
 								echo "<tr onclick='loadTd(this)' id='tr_".$count."'>";
 								foreach ($row as $item) 
 								{
-									if($i == 5 && $item != '')
+									if($i == 6 && $item != '')
 										echo "<td class='td-p0'><button class='btn btn-danger no-border' onclick='returnbattery(".$count.")'>반납</button></td>";
 									else
 										echo "<td>".($item?htmlentities($item):'')."</td>";
@@ -164,7 +173,7 @@
 							}
 						}
 
-						$query = "SELECT management_num,device,to_char(rental_date,'yyyy/mm/dd'),rental_period,phone_num,rental_price FROM BATTERY";
+						$query = "SELECT management_num,device,to_char(rental_date,'yyyy/mm/dd'),to_char(rental_date+rental_period,'yyyy/mm/dd'),rental_period,phone_num,rental_price FROM BATTERY";
 						$s = oci_parse($conn,$query);
 						oci_execute($s);
 						do_fetch($s);

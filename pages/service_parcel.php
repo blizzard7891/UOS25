@@ -47,19 +47,19 @@
 						<form action="./service_parcel_process.php" method="POST">
 							<div class="form-group">
 								<label>송장번호</label>
-								<input type="text" name="invoice" class="form-control" placeholder="0000000000000" pattern="[0-9]{13}" required>
+								<input type="text" name="invoice" class="form-control" placeholder="0000000000000" pattern="[0-9]{13}" maxlength="13" required>
 							</div>
 							<div class="form-group">
 								<label>무게(g)</label>
-								<input id="winput" type="number" name="weight" class="form-control" required>
+								<input id="winput" type="number" name="weight" class="form-control" min="1" required>
 							</div>
 							<div class="form-group">
     							<label class="mr-2">결제수단: </label>
     							<label class="radio-inline">
-    								<input type="radio" name="payMethod" value="cash" checked>현금
+    								<input type="radio" name="payMethod" value="00" checked>현금
     							</label>
     							<label class="radio-inline">
-    								<input type="radio" name="payMethod" value="card">카드
+    								<input type="radio" name="payMethod" value="01">카드
     							</label>
     						</div>
 							<div class="pull-right">
