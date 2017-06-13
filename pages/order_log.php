@@ -154,10 +154,11 @@
       }
 
     $(document).ready(function() {
-        $('#myTable').DataTable({
-            responsive: true
-        });
-    });
+         $('#myTable').DataTable({
+            responsive: true,
+            "aaSorting":[[0,'desc']]
+         });
+      });
 
     // $("tr").click(function(){        //function_tr 
     //   window.open("order_log_more.php", "popup_window", "width=1000, height=1000, scrollbars=no");
