@@ -43,7 +43,7 @@
    			<strong>판매내역</strong>
    		</div>
    		<div class="panel-body">
-   			<table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable">
+   			<table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable" >
    				<thead>
    					<tr>
    						<th>판매번호</th>
@@ -74,19 +74,24 @@
 
             function do_fetch($s)
             {
+
+              $count=0;
+
               while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
               {
-                echo "<tr>";
+                echo "<tr id="."tr_".$count." onclick=more_info(".$count.");>";
 
-                echo '<td>SL0000'; echo $row['SALE_NUM']; echo '</td>';
+                echo '<td>'; echo $row['SALE_NUM']; echo '</td>';
                 echo '<td>'; echo $row['SALE_DATE']; echo'</td>';
                 if($row['PAY_METHOD']=='00') echo "<td>현금</td>";
                 else echo "<td>카드</td>";
                 echo '<td>'; echo $row['SALE_AMOUNT']; echo'원</td>';
-                if($row['REFUND_FLAG']==0) echo '<td>환불안됨</td>';
-                else echo "<td>환불됨</td>";
+                if($row['REFUND_FLAG']==0) echo "<td class='td-p0'><button class='btn-danger' onclick=refund(".$count.");>환불처리</button></td>";
+                else echo "<td class='td-l5'>환불됨</button></td>";
                 echo '<td>'; echo $row['EMPLOYEE_NUM']; echo'</td>';
                 echo "</tr>";
+
+                $count=$count+1;
               }
             }
 
@@ -118,6 +123,65 @@
     <script src="../js/sb-admin-2.js"></script>
     <script src="../js/content.js"></script>
     <script>
+
+      function refund(row) {
+
+          var tr = document.getElementById("tr_"+row);
+          var salenum = tr.cells[0].innerHTML;
+          var empname = tr.cells[1].innerHTML;
+          var form = document.createElement("form");
+          form.setAttribute("method", "post");
+          form.setAttribute("action", "./refund_process.php");
+
+          var hiddenField = document.createElement("input");
+          hiddenField.setAttribute("type", "hidden");
+          hiddenField.setAttribute("name", "salenum");
+          hiddenField.setAttribute("value", salenum);
+          form.appendChild(hiddenField);
+          document.body.appendChild(form);
+
+          if(confirm("정말 환불처리 하시겠습니까? \n")==true){
+            alert(salenum +"상품은 환불처리되었습니다");
+            form.submit();
+          }
+          else{
+            return;
+          }
+
+          
+              //location.replace('./discharge_process.php');
+      }
+
+    function more_info(row) {
+
+
+         var win = window.open('about:blank', 'viewer', 'width=800,height=1000');
+
+
+         var tr = document.getElementById("tr_"+row);
+         var prodnum = tr.cells[0].innerHTML;
+         var form = document.createElement("form");
+         form.setAttribute("name", "myform")
+         form.setAttribute("method", "post");
+         form.setAttribute("action", "./sales_log_more.php");
+
+         var hiddenField = document.createElement("input");
+         hiddenField.setAttribute("type", "hidden");
+         hiddenField.setAttribute("name", "prodnum");
+         hiddenField.setAttribute("value", prodnum);
+         form.appendChild(hiddenField);
+         document.body.appendChild(form);
+
+         var frm = document.myform;
+         frm.action = './sales_log_more.php';
+
+
+         frm.target = "viewer";
+         frm.method = "post";
+         frm.submit();
+
+      }
+
     $(document).ready(function() {
         $('#myTable').DataTable({
             responsive: true
