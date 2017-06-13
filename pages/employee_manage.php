@@ -93,54 +93,8 @@
         </form>
       </div>
     </div>
-<<<<<<< HEAD
-    
-    <div class="col-lg-12">
-      <div class="panel panel-blue">
-        <div class="panel-heading">
-          <strong>직원 정보</strong>
-        </div>
-        <div class="panel-body">
-          <table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable">
-            <thead>
-              <tr>
-                <th>직원번호</th>
-                <th>이름</th>
-                <th>직급</th>
-                <th>휴대전화</th>
-                <th>주소</th>
-                <th>생년월일</th>
-                <th>고용일자</th>
-                <th>퇴사일자</th>
-              </tr>
-            </thead>
-            <tbody>
-          <?php
-            include_once("db.php");
-
-
-            function do_fetch($s)
-              {
-                 $count = 0;
-                while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
-                {
-                  
-                  echo "<tr id="."tr_".$count.">";
-                  foreach ($row as $item) 
-                  {
-                    $d1 ="<td>". htmlentities($item)."</td>";
-                    $d2 ="<td class='td-p0'><button onclick=discharge(".$count.");>퇴사처리</button></td>";
-                    echo ($item?$d1:$d2);
-                  }
-                  echo "</tr>";
-                 $count = $count + 1;
-                }
-              }
-
-=======
   </div>
 </div>
->>>>>>> 60c8f376ee7445caf127e5f038f34f59d87d9238
 
 <div class="col-lg-12">
   <div class="panel panel-blue">
@@ -164,14 +118,11 @@
         <tbody>
           <?php
           include_once("db.php");
-
-
           function do_fetch($s)
           {
            $count = 0;
            while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
            {
-
             echo "<tr id="."tr_".$count.">";
             foreach ($row as $item) 
             {
@@ -183,23 +134,17 @@
             $count = $count + 1;
           }
         }
-
-
         $stid = oci_parse($conn, 'SELECT COUNT(*) FROM EMPLOYEE') or die('oci parse error: '.oci_error($conn));
         if(oci_execute($stid) == false) die("oci query error [$query] message : ".oci_error($stid));
         while (($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
           $count = $res['COUNT(*)'];
         }
         oci_free_statement($stid);
-
         $query = "SELECT EMPLOYEE_NUM, NAME, RANK, PHONE_NUM, ADR, TO_CHAR(BIRTH, 'YYMMDD'), TO_CHAR(EMPLOYMENT_DATE,'YYYY/MM/DD'), TO_CHAR(DISCHARGE_DATE,'YYYY/MM/DD') FROM EMPLOYEE";
         $s = oci_parse($conn,$query);
-
         oci_execute($s);
         do_fetch($s);
         oci_free_statement($s);
-
-
         oci_close($conn);
         ?>
       </tbody>
@@ -208,34 +153,27 @@
 </div>
 </div>
 <script>
-
   function empsubmit(){
-
      var frm = document.getElementById('empForm');
-
     if(confirm("직원정보를 올바르게 기입했습니까?")==true){
       frm.submit();
     }else {
       return;
     }
-
   }
   function discharge(row) {
-
     var tr = document.getElementById("tr_"+row);
     var empnum = tr.cells[0].innerHTML;
     var empname = tr.cells[1].innerHTML;
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", "./discharge_process.php");
-
     var hiddenField = document.createElement("input");
     hiddenField.setAttribute("type", "hidden");
     hiddenField.setAttribute("name", "empnum");
     hiddenField.setAttribute("value", empnum);
     form.appendChild(hiddenField);
     document.body.appendChild(form);
-
     if(confirm("한 번 퇴사처리하면 되돌릴 수 없습니다.\n정말 퇴사처리 하겠습니까??")==true){
       alert(empname+" 은 퇴사처리되었습니다");
       form.submit();
@@ -243,7 +181,6 @@
     else{
       return;
     }
-
     
         //location.replace('./discharge_process.php');
       }
@@ -268,7 +205,6 @@
           responsive: true
         });
       });
-
       document.onkeydown = trapRefresh;
       function trapRefresh()
       {
