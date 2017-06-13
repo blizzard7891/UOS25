@@ -30,8 +30,7 @@
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="../css/content.css" rel="stylesheet" type="text/css">
-
-
+    
 </head> 
 
 <body class="whitebody">

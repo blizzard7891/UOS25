@@ -78,7 +78,7 @@
 
                 $sale_num=$row['SALE_NUM'];
                 $conn = oci_connect('juneui', 'helloworld', 'juneui.cwpxsqzgvzt5.ap-northeast-2.rds.amazonaws.com:1521/orcl', 'UTF8');
-                $query = "SELECT sale_amount FROM SALE WHERE sale_num=1 ";
+                $query = "SELECT sale_amount FROM SALE WHERE sale_num='$sale_num' ";
                 $s1 = oci_parse($conn,$query);
                 oci_execute($s1);
                 $row1 = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);

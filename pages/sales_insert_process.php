@@ -1,10 +1,12 @@
 
     <?php
-
     date_default_timezone_set('Asia/Seoul');
 
+
     if($_POST['type']=="구매물품추가"){
-        if(isset($_POST['salenum'])!=null){
+
+
+        if(!empty($_POST['salenum'])&&!empty($_POST['salecount'])){
 
         include_once("./db.php");
         $prodnum = $_POST['salenum'];
@@ -21,41 +23,72 @@
         
         $s = oci_parse($conn,$query);
         oci_free_statement($s);
-        
 
-        $query = "INSERT INTO TEMP (
-        ATT1,
-        ATT2,
-        ATT3,
-        ATT4,
-        ATT5,
-        ATT6
-        )
-        VALUES (
-        :name,
-        :price,
-        :event,
-        :count,
-        :sumprice, 
-        :prodnum
-        )";
 
-        $s = oci_parse($conn,$query);
-       
-        oci_bind_by_name($s, ':name', $prod_name);
-        oci_bind_by_name($s, ':price', $prod_price);
-        oci_bind_by_name($s, ':event', $prod_event);
-        oci_bind_by_name($s, ':count', $prod_count);
-        oci_bind_by_name($s, ':sumprice', $prod_sum);
-        oci_bind_by_name($s, ':prodnum', $prodnum);
-         
+        $query = "SELECT STOCK_QTY FROM PRODUCT WHERE PROD_NUM='$prodnum'" ;   
+        $s1 = oci_parse($conn,$query);
+        oci_execute($s1);
+        $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
+        $stockqty=$row['STOCK_QTY'];
+        oci_free_statement($s1);
 
-        oci_execute($s);
-        oci_free_statement($s);
-        oci_close($conn);
-        
 
+        $query = "SELECT COUNT(*) FROM TEMP WHERE ATT6='$prodnum'" ;   
+        $s1 = oci_parse($conn,$query);
+        oci_execute($s1);
+        $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
+        $double=$row['COUNT(*)'];
+        oci_free_statement($s1);
+
+        if($stockqty-$prod_count<0){
+            echo "<script>alert(\"재고가 부족합니다. 현재재고량 : ".$stockqty."개\");</script>"; 
+
+            echo( "<script>location.replace('./sales_insert.php');</script>" );
+     
+        }else if($double>0){
+            echo "<script>alert(\"동일한 품목이 존재합니다.\");</script>"; 
+
+            echo( "<script>location.replace('./sales_insert.php');</script>" );
+     
+        }else{
+
+
+            $query = "INSERT INTO TEMP (
+            ATT1,
+            ATT2,
+            ATT3,
+            ATT4,
+            ATT5,
+            ATT6
+            )
+            VALUES (
+            :name,
+            :price,
+            :event,
+            :count,
+            :sumprice, 
+            :prodnum
+            )";
+
+            $s = oci_parse($conn,$query);
+           
+            oci_bind_by_name($s, ':name', $prod_name);
+            oci_bind_by_name($s, ':price', $prod_price);
+            oci_bind_by_name($s, ':event', $prod_event);
+            oci_bind_by_name($s, ':count', $prod_count);
+            oci_bind_by_name($s, ':sumprice', $prod_sum);
+            oci_bind_by_name($s, ':prodnum', $prodnum);
+             
+
+            oci_execute($s);
+            oci_free_statement($s);
+            oci_close($conn);
         }
+
+        }else{
+            echo "<script>alert(\"판매제품번호와 판매수량을 입력하세요.\");</script>"; 
+        }
+
     }elseif($_POST['type']=="모두비우기"){
 
         include_once("./db.php");
@@ -158,6 +191,16 @@
             echo $expdate;
             oci_free_statement($s1);
             
+
+            $query = "UPDATE PRODUCT SET STOCK_QTY = (SELECT STOCK_QTY FROM PRODUCT WHERE PROD_NUM='$prodnum')-'$saleqty' WHERE PROD_NUM='$prodnum'" ;   
+            $s1 = oci_parse($conn,$query);
+            oci_execute($s1);
+            oci_free_statement($s1);
+
+
+
+
+
             $query = "INSERT INTO SALE_LIST(PROD_NUM, SALE_NUM, SALE_QTY, SALE_AMOUNT, EXPDATE  ) VALUES (:prodnum, :salenum, :saleqty, 
                             :saleamount, TO_DATE(:expdate,'yyyy/mm/dd'))";
             $s2 = oci_parse($conn,$query);
@@ -188,11 +231,14 @@
         oci_free_statement($s);
 
 
-    $query = "SELECT count(*) FROM SALE";
+
+
+
+    $query = "SELECT count(*) FROM RECEIPT";
     $s = oci_parse($conn,$query);
     oci_execute($s);
     $row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC);
-    $receiptnum = $row['COUNT(*)'];
+    $receiptnum = $row['COUNT(*)']+1;
     oci_free_statement($s);
     
     $flag='0';
@@ -218,6 +264,6 @@
 
     
         
-     // ㄴecho( "<script>location.replace('./sales_insert.php');</script>" );
+     echo( "<script>location.replace('./sales_insert.php');</script>" );
     
 ?>
