@@ -141,11 +141,11 @@
 
 				</div>
 				<div class="pull-right mt-3">
-				<form method="POST" action="order_product_process.php">
-					<button type="submit" class="btn btn-primary" name="type" value="주문">주문</button>
-					<input type="hidden" name="countsum" value="<?php echo $countsum; ?>">
-					<input type="hidden" name="pricesum" value="<?php echo $pricesum; ?>">
-				</form>
+					<form method="POST" id="myForm">
+						<button class="btn btn-primary" name="type" value="주문" onclick="order();">주문</button>
+						<input type="hidden" name="countsum" value="<?php echo $countsum; ?>">
+						<input type="hidden" name="pricesum" value="<?php echo $pricesum; ?>">
+					</form>
 				</div>
 			</div>
 		</div>
@@ -161,6 +161,17 @@
 	<script src="../js/sb-admin-2.js"></script>
 	<script src="../js/content.js"></script>
 	<script>
+		function order(){
+			if(confirm("주문하시겠습니까?")==true){
+				var frm = document.getElementById('myForm');
+				frm.action = './order_product_process.php';
+				frm.method = "post";
+				frm.submit();
+			}
+			else { return;}
+
+		}
+
 		$(document).ready(function() {
 			$('#myTable').DataTable({
 				responsive: true

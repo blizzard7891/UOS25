@@ -15,7 +15,7 @@ window.opener.location.reload();
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>주문상세내역</title>
+  <title>판매상세내역</title>
 
   <!-- Bootstrap Core CSS -->
   <link href="../css/bootstrap.css" rel="stylesheet">
@@ -40,27 +40,28 @@ window.opener.location.reload();
 <body class="whitebody">
 
  <div class="col-lg-12">
-  <h1 class="page-header">주문상세내역</h1>
+  <h1 class="page-header">판매상세내역</h1>
 </div>
 
 <div class="col-lg-12">
   <div class="panel panel-blue">
    <div class="panel-heading">
-    <strong>주문상세내역</strong>
+    <strong>판매상세내역</strong>
   </div>
   <div class="panel-body">
 
    <table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable">
     <thead>
      <tr>
-       <th>주문번호</th>
-       <th>제품명</th>
-       <th>주문수량</th>
-       <th>주문금액</th>
-       <th>입고여부</th>
+       <th>판매번호</th>
+       <th>물품명</th>
+       <th>판매수량</th>
+       <th>판매금액</th>
+       <th>환불여부</th>
      </tr>
    </thead>
    <tbody>
+
     <?php
     include_once("db.php");
 
@@ -70,31 +71,35 @@ window.opener.location.reload();
 
       while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
       {
+        $salenum=$row['SALE_NUM'];
+        $prodnum=$row['PROD_NUM'];
+       $conn = oci_connect('juneui', 'helloworld', 'juneui.cwpxsqzgvzt5.ap-northeast-2.rds.amazonaws.com:1521/orcl', 'UTF8');
+        $query1 = "SELECT PROD_NAME FROM PRODUCT WHERE PROD_NUM = '$prodnum'";
+        $s1 = oci_parse($conn,$query1);
+        oci_execute($s1);
+        $row1 = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
+        do_fetch($s1);
+        oci_free_statement($s1);
 
-       $flag = $row['ENT_FLAG'];
-       $return_flag = $row['RETURN_NUM'];
+
+        $query1 = "SELECT REFUND_FLAG FROM SALE WHERE SALE_NUM ='$salenum'";
+        $s1 = oci_parse($conn,$query1);
+        oci_execute($s1);
+        $row2 = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
+        do_fetch($s1);
+        oci_free_statement($s1);
+
+
+       $flag = $row2['REFUND_FLAG'];
+
        echo "<tr id="."tr_".$count.">";
-       echo "<td>{$row['ORDER_NUM']}</td>";
-       echo "<td>{$row['PROD_NAME']}</td>";
-       echo "<td>{$row['ORDER_QTY']}</td>";
-       echo "<td>{$row['ORDER_AMT']}</td>";
+       echo "<td>{$row['SALE_NUM']}</td>";
+       echo "<td>{$row1['PROD_NAME']}</td>";
+       echo "<td>{$row['SALE_QTY']}</td>";
+       echo "<td>{$row['SALE_AMOUNT']}</td>";
+       if($flag==1)echo "<td class='btn-danger'>환불처리 되었습니다.</td>";
+       else echo "<td>환불안됨</td>";
 
-       if(!is_null($return_flag)){
-        echo "<td style=\"text-align: center\">반품요청됨</td>";
-        $count = $count + 1;
-        continue;
-      }else if(is_null($flag)){
-        $id = $count."입고전";
-        echo "<td style=\"text-align: center\">";
-        echo "<input type=\"hidden\" value=\"입고전\" id=$id>";
-        echo "<button onclick=enter(".$count."); class='btn btn-danger no-border'>입고처리</button>&nbsp;&nbsp;<button onclick=order_return($count); class='btn btn-danger no-border'>반품요청</button></td>";
-      }
-      else {
-        $id = $count."입고후";
-        echo "<td style=\"text-align: center\">";
-        echo "<input type=\"hidden\" value=\"입고후\" id=$id>";
-        echo "입고됨&nbsp;&nbsp;&nbsp;&nbsp;<button onclick=order_return($count); class='btn btn-danger no-border'>반품요청</button></td>";
-      }
 
       echo "</tr>";
 
@@ -102,24 +107,21 @@ window.opener.location.reload();
     }
   }
 
-  $onum = $_POST['onum'];
-  $query = "SELECT a.ORDER_NUM, b.PROD_NAME, a.ORDER_QTY, a.ORDER_AMT, a.ENT_FLAG, a.RETURN_NUM FROM ORDER_LIST a, PRODUCT b WHERE a.PROD_NUM = b.PROD_NUM AND a.ORDER_NUM = :onum";
+  $prodnum = $_POST['prodnum'];
+  $query = "SELECT SALE_NUM, SALE_QTY, SALE_AMOUNT ,PROD_NUM FROM SALE_LIST WHERE SALE_NUM = '$prodnum'";
   $s = oci_parse($conn,$query);
-  oci_bind_by_name($s, ':onum', $onum);
   oci_execute($s);
   do_fetch($s);
   oci_free_statement($s);
 
-  $query2 = "SELECT SUM(a.ORDER_QTY), SUM(a.ORDER_AMT) FROM ORDER_LIST a, PRODUCT b WHERE a.PROD_NUM = b.PROD_NUM AND a.ORDER_NUM = :onum";
+  $query2 = "SELECT SALE_AMOUNT FROM SALE WHERE SALE_NUM = '$prodnum'";
 
   $s = oci_parse($conn,$query2);
-  oci_bind_by_name($s, ':onum', $onum);
   oci_execute($s);
   $res = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC);
   oci_free_statement($s);
 
-  $countsum = $res['SUM(A.ORDER_QTY)'];
-  $pricesum = $res['SUM(A.ORDER_AMT)'];
+  $pricesum = $res['SALE_AMOUNT'];
 
 
   oci_close($conn);
@@ -127,10 +129,6 @@ window.opener.location.reload();
   ?>
 </tbody>
 </table>
-<br>
-<label class="mr-2">총 주문수량: </label>
-<label class="mr-2"><?php echo $countsum?> 개</label>
-
 <br>
 <label class="mr-2">총 주문금액: </label>
 <label class="mr-2"><?php echo $pricesum?> 원</label>
@@ -155,7 +153,7 @@ window.opener.location.reload();
 
   function enter(row){
 
-    if(confirm("입고처리 하시겠습니까??")==true){
+    if(confirm("활불처리 하시겠습니까??")==true){
       var tr = document.getElementById("tr_"+row);
       var onum = tr.cells[0].innerHTML;
       var pname = tr.cells[1].innerHTML;
@@ -207,7 +205,6 @@ window.opener.location.reload();
       var flag = td1.value;}
 
       var tr = document.getElementById("tr_"+row);
-      var onum = tr.cells[0].innerHTML;
       var pname = tr.cells[1].innerHTML;
       var return_quantity = tr.cells[2].innerHTML;
       var return_amount = tr.cells[3].innerHTML;
@@ -239,12 +236,6 @@ window.opener.location.reload();
       hiddenField4.setAttribute("name", "flag");
       hiddenField4.setAttribute("value", flag);
       form.appendChild(hiddenField4);
-
-      var hiddenField5 = document.createElement("input");
-      hiddenField5.setAttribute("type", "hidden");
-      hiddenField5.setAttribute("name", "onum");
-      hiddenField5.setAttribute("value", onum);
-      form.appendChild(hiddenField5);
 
       document.body.appendChild(form);
       alert(pname+" 반품 요청되었습니다 "+date);

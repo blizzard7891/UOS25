@@ -48,7 +48,7 @@
             <form action="product_class_process.php" method="POST">
               <div class="form-group">
                 <label>분류명</label>
-                <input type="text" class="form-control" name="tname">
+                <input type="text" class="form-control" name="tname" required>
               </div>
               <div class="pull-right">
                 <button type="submit" class="btn btn-primary">분류입력</button>
@@ -86,17 +86,16 @@
                 $num = $res1['PROD_CLASS_NUM'];
                 $name = $res1['PROD_CLASS_NAME'];
                 
-                $query2 = "SELECT STOCK_QTY FROM PRODUCT WHERE PROD_CLASS_NUM = :num";
+                $query2 = "SELECT COUNT(*) FROM PRODUCT WHERE PROD_CLASS_NUM = :num";
                 $stid2 = oci_parse($conn, $query2) or die('oci parse error: '.oci_error($conn));          
                 oci_bind_by_name($stid2, ':num', $num);
                 if(oci_execute($stid2) == false) die("oci query error [$query] message : ".oci_error($stid2));
-                while (($res2 = oci_fetch_array($stid2, OCI_ASSOC)) != false) {
-                      $total_qty = $total_qty + $res2['STOCK_QTY'];
-                }
+                $res2 = oci_fetch_array($stid2, OCI_ASSOC);
+                $class_count = $res2['COUNT(*)'];    
                 echo "<tr>";
                 echo "<td>$num</td>";
                 echo "<td>$name</td>";
-                echo "<td>$total_qty</td>";
+                echo "<td>$class_count</td>";
                 echo "</tr>";
             }
             oci_free_statement($stid1);

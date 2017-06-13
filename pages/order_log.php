@@ -128,7 +128,7 @@
 
     function more_info(row) {
 
-         var win = window.open('about:blank', 'viewer', 'width=800,height=1000');
+         var win = window.open('about:blank', 'viewer', 'width=1000,height=1000');
 
 
          var tr = document.getElementById("tr_"+row);

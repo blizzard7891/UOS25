@@ -7,7 +7,7 @@
     <meta name="author" content="">
     
 
-    <title>Signin Template for Bootstrap</title>
+    <title>로그인</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -29,9 +29,29 @@
           </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+         <button class="btn btn-lg btn-primary btn-block" onclick="popup();">비밀번호변경</button>
       </form>
 
     </div> <!-- /container -->
 
   </body>
+
+  <script type="text/javascript">
+
+<!--
+
+function popup(){
+
+  var popUrl = "./change_password.php"; //팝업창에 출력될 페이지 URL
+
+  var popOption = "width=570, height=660, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
+
+    window.open(popUrl,"",popOption);
+
+  }
+
+//-->
+
+</script>
+
 </html>
