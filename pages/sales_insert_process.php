@@ -16,20 +16,59 @@
         $row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC);
         $prod_price = $row['PROD_PRICE'];
         $prod_name = $row['PROD_NAME'];
-        $prod_event = "없음";
-        $prod_count = $_POST['salecount'];
-        $prod_sum = $_POST['salecount']*$prod_price;
 
-        
-        $s = oci_parse($conn,$query);
-        oci_free_statement($s);
-
-
-        $query = "SELECT STOCK_QTY FROM PRODUCT WHERE PROD_NUM='$prodnum'" ;   
+        //행사상품 여부 조회
+        $query = "SELECT COUNT(*) FROM EVENT_PRODUCT WHERE PROD_NUM='$prodnum'" ;   
         $s1 = oci_parse($conn,$query);
         oci_execute($s1);
         $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
-        $stockqty=$row['STOCK_QTY'];
+        oci_free_statement($s1);
+
+        if($row['COUNT(*)']==0)$prod_event = "이벤트 행사없음";
+        else $prod_event = "이벤트 행사중";
+        
+        
+        $prod_count = $_POST['salecount'];
+        $beforeprice = $_POST['salecount']*$prod_price;
+
+
+        if($prod_event=="이벤트 행사없음"){
+            $prod_sum=$beforeprice;
+        }else{
+                //행사 종류 조회
+            $query = "SELECT EVENT_GROUP,DISCOUNT_PRICE FROM EVENT_PRODUCT WHERE PROD_NUM='$prodnum'" ;   
+            $s1 = oci_parse($conn,$query);
+            oci_execute($s1);
+            $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
+            $eventgroup=$row['EVENT_GROUP'];
+            $discount_price=$row['DISCOUNT_PRICE'];
+            oci_free_statement($s1);
+
+
+            if($eventgroup=='000'){ 
+                $groupcnt=floor($prod_count/2);
+                $prod_event="1+1 행사중";
+                $prod_sum=$beforeprice-($groupcnt*$discount_price);
+
+            }else if($eventgroup=='001'){
+                $groupcnt=floor($prod_count/3);
+                $prod_event="2+1 행사중";
+                $prod_sum=$beforeprice-($groupcnt*$discount_price);
+
+            }else if($eventgroup=='010'){
+                $prod_event="할인 행사중";
+                $prod_sum=$beforeprice-$discount_price;
+            } 
+           
+        }
+
+
+        //재고량 조회
+        $query = "SELECT MAX(QTY) FROM EXP_DATE_MANAGEMENT WHERE PROD_NUM='$prodnum'" ;   
+        $s1 = oci_parse($conn,$query);
+        oci_execute($s1);
+        $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
+        $stockqty=$row['MAX(QTY)'];
         oci_free_statement($s1);
 
 
@@ -59,7 +98,8 @@
             ATT3,
             ATT4,
             ATT5,
-            ATT6
+            ATT6,
+            ATT7
             )
             VALUES (
             :name,
@@ -67,7 +107,8 @@
             :event,
             :count,
             :sumprice, 
-            :prodnum
+            :prodnum,
+            :beforeprice
             )";
 
             $s = oci_parse($conn,$query);
@@ -78,7 +119,7 @@
             oci_bind_by_name($s, ':count', $prod_count);
             oci_bind_by_name($s, ':sumprice', $prod_sum);
             oci_bind_by_name($s, ':prodnum', $prodnum);
-             
+            oci_bind_by_name($s, ':beforeprice', $beforeprice);
 
             oci_execute($s);
             oci_free_statement($s);
@@ -175,24 +216,31 @@
             $saleqty=$row['ATT4'];
             $saleamount=$row['ATT5'];
             
-            $query = "SELECT ENT_DATE FROM ENTER WHERE PROD_NUM='$prodnum'" ;   
-            $s1 = oci_parse($conn,$query);
-            oci_execute($s1);
-            $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
-            $entdate=$row['ENT_DATE'];
-            oci_free_statement($s1);
+            // $query = "SELECT ENT_DATE FROM ENTER WHERE PROD_NUM='$prodnum'" ;   
+            // $s1 = oci_parse($conn,$query);
+            // oci_execute($s1);
+            // $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
+            // $entdate=$row['ENT_DATE'];
+            // oci_free_statement($s1);
             
-            $query = "SELECT EXPDATE FROM EXP_DATE_MANAGEMENT WHERE ENT_DATE= '$entdate' and PROD_NUM='$prodnum'" ;   
+            $query = "SELECT EXPDATE FROM EXP_DATE_MANAGEMENT WHERE QTY > '$saleqty' and PROD_NUM='$prodnum' ORDER BY EXPDATE ASC" ;   
             $s1 = oci_parse($conn,$query);
             oci_execute($s1);
             $row = oci_fetch_array($s1,OCI_RETURN_NULLS + OCI_ASSOC);
 
             $expdate = $row['EXPDATE'];
-            echo $expdate;
             oci_free_statement($s1);
             
-
+            //product 테이블에서 재고량 수정
             $query = "UPDATE PRODUCT SET STOCK_QTY = (SELECT STOCK_QTY FROM PRODUCT WHERE PROD_NUM='$prodnum')-'$saleqty' WHERE PROD_NUM='$prodnum'" ;   
+            $s1 = oci_parse($conn,$query);
+            oci_execute($s1);
+            oci_free_statement($s1);
+
+
+            // 유통기한 테이블에서 재고량 수정
+            $query = "UPDATE EXP_DATE_MANAGEMENT SET QTY = (SELECT QTY FROM EXP_DATE_MANAGEMENT WHERE EXPDATE='$expdate'
+                    and PROD_NUM='$prodnum')-'$saleqty' WHERE EXPDATE='$expdate' and PROD_NUM='$prodnum'" ;   
             $s1 = oci_parse($conn,$query);
             oci_execute($s1);
             oci_free_statement($s1);
@@ -222,7 +270,7 @@
 
 
             $flag = '00';
-            $query = "INSERT INTO RELEASE(SEQ_NUM, PROD_NUM, REL_DATE, REL_GROUP, QTY ) VALUES ('$releasenum','$prodnum',TO_DATE(:wdate,'yyyy/mm/dd'),'$flag','$saleqty')";
+            $query = "INSERT INTO RELEASE(SEQ_NUM, PROD_NUM, REL_DATE, REL_GROUP, QTY ) VALUES ('$releasenum','$prodnum',TO_DATE(:wdate,'dd/mm/yyyy'),'$flag','$saleqty')";
             $s4 = oci_parse($conn,$query);
             oci_bind_by_name($s4, ':wdate', $date);
             oci_execute($s4);
@@ -264,6 +312,6 @@
 
     
         
-     echo( "<script>location.replace('./sales_insert.php');</script>" );
+     // echo( "<script>location.replace('./sales_insert.php');</script>" );
     
 ?>

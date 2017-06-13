@@ -75,8 +75,9 @@
                                             <th>판매제품명</th>
                                             <th>판매가격</th>
                                             <th>행사여부</th>
-                                            <th>총수량</th>
-                                            <th>총가격</th>
+                                            <th>총 수량</th>
+                                            <th>원 가격</th>
+                                            <th>할인 후 가격</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -97,7 +98,7 @@
                                             }
                                         }
 
-                                        $query = "SELECT ATT1,ATT2,ATT3,ATT4,ATT5 FROM TEMP";
+                                        $query = "SELECT ATT1,ATT2,ATT3,ATT4,ATT7,ATT5 FROM TEMP";
                                         $s = oci_parse($conn,$query);
 
 
