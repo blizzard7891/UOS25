@@ -164,6 +164,40 @@ if(is_null($returnnum)){
 
 		oci_execute($compiled7);
 
+		$query8 = "SELECT SEQ_NUM FROM ORDER_LIST WHERE  ORDER_NUM = :onum AND PROD_NUM = :pnum";
+
+		$compiled8 = oci_parse($conn, $query8);
+
+		oci_bind_by_name($compiled8, 'onum', $onum);
+		oci_bind_by_name($compiled8, 'pnum', $pnum);
+
+		oci_execute($compiled8);
+
+		$res8 = oci_fetch_array($compiled8, OCI_RETURN_NULLS + OCI_ASSOC);
+
+		$seq = $res8['SEQ_NUM'];
+
+
+		$query9 = "SELECT TO_CHAR(ENT_DATE,'YYYY/MM/DD') FROM ENTER WHERE SEQ_NUM = :seq";
+		$compiled9 = oci_parse($conn, $query9);
+
+		oci_bind_by_name($compiled9, ':seq', $seq);
+
+		oci_execute($compiled9);
+
+		$res9 = oci_fetch_array($compiled9, OCI_RETURN_NULLS + OCI_ASSOC);
+
+		$enterdate = $res9['TO_CHAR(ENT_DATE,\'YYYY/MM/DD\')'];
+
+		$query10 = "DELETE FROM EXP_DATE_MANAGEMENT WHERE ENT_DATE = TO_DATE(:edate,'yyyy/mm/dd') AND PROD_NUM = :pnum";
+
+		$compiled10 = oci_parse($conn, $query10);
+
+		oci_bind_by_name($compiled10, ':edate', $enterdate);
+		oci_bind_by_name($compiled10, ':pnum', $pnum);
+
+		oci_execute($compiled10);
+
 
 
 		oci_free_statement($compiled1);
@@ -173,6 +207,9 @@ if(is_null($returnnum)){
 		oci_free_statement($compiled5);
 		oci_free_statement($compiled6);
 		oci_free_statement($compiled7);
+		oci_free_statement($compiled8);
+		oci_free_statement($compiled9);
+		oci_free_statement($compiled10);
 
 
 		oci_close($conn);
@@ -355,11 +392,52 @@ else{
 
 		oci_execute($compiled5);
 
+		$query6 = "SELECT SEQ_NUM FROM ORDER_LIST WHERE  ORDER_NUM = :onum AND PROD_NUM = :pnum";
+
+		$compiled6 = oci_parse($conn, $query6);
+
+		oci_bind_by_name($compiled6, 'onum', $onum);
+		oci_bind_by_name($compiled6, 'pnum', $pnum);
+
+		oci_execute($compiled6);
+
+		$res6 = oci_fetch_array($compiled6, OCI_RETURN_NULLS + OCI_ASSOC);
+
+		$seq = $res6['SEQ_NUM'];
+
+
+		$query7 = "SELECT TO_CHAR(ENT_DATE,'YYYY/MM/DD') FROM ENTER WHERE SEQ_NUM = :seq";
+		$compiled7 = oci_parse($conn, $query7);
+
+		oci_bind_by_name($compiled7, ':seq', $seq);
+
+		oci_execute($compiled7);
+
+		$res7 = oci_fetch_array($compiled7, OCI_RETURN_NULLS + OCI_ASSOC);
+
+		$enterdate = $res7['TO_CHAR(ENT_DATE,\'YYYY/MM/DD\')'];
+
+
+		var_dump($enterdate);
+		var_dump($pnum);
+
+		$query8 = "DELETE FROM EXP_DATE_MANAGEMENT WHERE ENT_DATE = TO_DATE(:edate,'yyyy/mm/dd') AND PROD_NUM = :pnum";
+
+		$compiled8 = oci_parse($conn, $query8);
+
+		oci_bind_by_name($compiled8, ':edate', $enterdate);
+		oci_bind_by_name($compiled8, ':pnum', $pnum);
+
+		oci_execute($compiled8);
+
 		oci_free_statement($compiled1);
 		oci_free_statement($compiled2);
 		oci_free_statement($compiled3);
 		oci_free_statement($compiled4);
 		oci_free_statement($compiled5);
+		oci_free_statement($compiled6);
+		oci_free_statement($compiled7);
+		oci_free_statement($compiled8);
 
 		oci_close($conn);
 
