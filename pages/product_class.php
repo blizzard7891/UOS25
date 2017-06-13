@@ -66,7 +66,7 @@
       <strong>품목분류 목록</strong>
     </div>
     <div class="panel-body">
-      <table width="100%" class="table table-striped table-bordered table-hover mb-0">
+      <table width="100%" class="table table-striped table-bordered table-hover mb-0" id="myTable">
         <thead>
           <tr>
             <th>순서번호</th>
