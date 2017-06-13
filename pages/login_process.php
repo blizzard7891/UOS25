@@ -13,13 +13,14 @@ $check_id  = $res1['ID'];
 $check_pw = $res1['PW'];
 $enum = $res1['EMPLOYEE_NUM'];
 
-$query2 = "SELECT RANK FROM EMPLOYEE WHERE EMPLOYEE_NUM = :enum";
+$query2 = "SELECT RANK, NAME FROM EMPLOYEE WHERE EMPLOYEE_NUM = :enum";
 $compiled2 = oci_parse($conn, $query2);
 oci_bind_by_name($compiled2, ':enum', $enum);
 oci_execute($compiled2);
 $res2 = oci_fetch_array($compiled2,OCI_RETURN_NULLS + OCI_ASSOC);
 
 $rank = $res2['RANK'];
+$name = $res2['NAME'];
 
 oci_free_statement($stid1);
 oci_free_statement($compiled2);
@@ -31,10 +32,12 @@ if($check_id == $_POST['id'] && $check_pw == $_POST['password'])
 	if($rank == "지점장" || $rank == "매니저"){
 		$_SESSION['user_id'] = $check_id;
 		$_SESSION['empnum'] = $enum;
+		$_SESSION['empname'] = $name;
 		echo("<script>location.replace('./index.php');</script>"); 
 	}else{
 		$_SESSION['user_id'] = $check_id;
 		$_SESSION['empnum'] = $enum;
+		$_SESSION['empname'] = $name;
 		echo("<script>location.replace('./index_for_employee.php');</script>"); 
 	}
 }
