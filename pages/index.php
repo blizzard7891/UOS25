@@ -1,9 +1,9 @@
 <?php session_start(); ?>
 <?php
 if(!isset($_SESSION['user_id']) || !isset($_SESSION['empnum'])) {
-     echo "<script>alert(\"로그인이 필요합니다\");</script>";
-     echo "<meta http-equiv='refresh' content='0;url=login.html'>";    
-     exit; 
+   echo "<script>alert(\"로그인이 필요합니다\");</script>";
+   echo "<meta http-equiv='refresh' content='0;url=login.html'>";    
+   exit; 
 
 }
 ?>
@@ -142,10 +142,10 @@ if(!isset($_SESSION['user_id']) || !isset($_SESSION['empnum'])) {
                                 <a href="#" onclick="changeUrl('stock_expdate_manage.php')">폐기관리</a>
                             </li>
                             <li>
-                              <a href="#" onclick="changeUrl('stock_enter.php')">입고내역</a>
+                              <a href="#" onclick="changeUrl('stock_enter_log.php')">입고내역</a>
                           </li>
                           <li>
-                              <a href="#" onclick="changeUrl('stock_release.php')">출고내역</a>
+                              <a href="#" onclick="changeUrl('stock_release_log.php')">출고내역</a>
                           </li>
                       </ul>
                   </li>
@@ -157,8 +157,15 @@ if(!isset($_SESSION['user_id']) || !isset($_SESSION['empnum'])) {
                         <a href="#" onclick="changeUrl('closing_account.php')"><i class="fa fa-edit fa-fw"></i> 결산관리</a>
                     </li>
                     <li>
-                        <a href="#" onclick="changeUrl('employee_manage.php')">
-                            <i class="fa fa-users fa-fw"></i> 직원관리</a>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> 직원관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#" onclick="changeUrl('employee_manage.php')">직원정보</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="changeUrl('employee_schedule.php')">근무부</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-cubes fa-fw"></i> 부가서비스<span class="fa arrow"></span></a>
@@ -179,13 +186,13 @@ if(!isset($_SESSION['user_id']) || !isset($_SESSION['empnum'])) {
         </nav>
 
         <div id="page-wrapper">
-         <div class="row">
-          <div class="col-12">
-             <iframe src="home.php" class="col-12" width="100%" height="700" frameborder="0" id="main_frame"></iframe>
-         </div>
-     </div>
- </div>
- <!-- /#page-wrapper -->
+           <div class="row">
+              <div class="col-12">
+               <iframe src="home.php" class="col-12" width="100%" height="700" frameborder="0" id="main_frame"></iframe>
+           </div>
+       </div>
+   </div>
+   <!-- /#page-wrapper -->
 
 </div>
 <!-- /#wrapper -->
@@ -202,12 +209,12 @@ if(!isset($_SESSION['user_id']) || !isset($_SESSION['empnum'])) {
 <script type="text/javascript">
   function changeUrl(url)
   {
-     document.getElementById("main_frame").src = url;
- }
+   document.getElementById("main_frame").src = url;
+}
 
- document.onkeydown = trapRefresh;
- function trapRefresh()
- {
+document.onkeydown = trapRefresh;
+function trapRefresh()
+{
     if (event.keyCode == 116)
     {
       event.keyCode = 0; 
