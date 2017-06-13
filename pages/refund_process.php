@@ -83,12 +83,13 @@ if(isset($_POST['salenum'])){
 
 		$s = oci_parse($conn,$query);
 		$enterflag = '01';
+		$saleqty = $row['SALE_QTY'];
 
 		oci_bind_by_name($s, ':seq', $seq);
 		oci_bind_by_name($s, ':enterdate', $date);
 		oci_bind_by_name($s, ':enterflag', $enterflag);
 		oci_bind_by_name($s, ':enterproduct', $row['PROD_NUM']);
-		oci_bind_by_name($s, ':enterqty', $row['SALE_QTY']);
+		oci_bind_by_name($s, ':enterqty', $saleqty);
 
 		oci_execute($s);
 		oci_free_statement($s);
@@ -106,11 +107,27 @@ if(isset($_POST['salenum'])){
 
 	    //재고수량 증가 product 테이블
 	    $qty=$currentqty+$row['SALE_QTY'];
-
 		$query = "UPDATE PRODUCT SET STOCK_QTY ='$qty' WHERE PROD_NUM='$prodnum'" ;   
 	    $s2 = oci_parse($conn,$query);
 	    oci_execute($s2);
 	    oci_free_statement($s2);
+
+	    // 유통기한 테이블에서 재고량 수정
+	    $query = "SELECT EXPDATE FROM SALE_LIST WHERE PROD_NUM='$prodnum' and SALE_NUM='$salenum'" ;   
+	    $s2 = oci_parse($conn,$query);
+	    oci_execute($s2);
+	    $res = oci_fetch_array($s2,OCI_RETURN_NULLS + OCI_ASSOC);
+	    $expdate=$res['EXPDATE'];
+	    oci_free_statement($s2);
+
+
+
+        $query = "UPDATE EXP_DATE_MANAGEMENT SET QTY =(SELECT QTY FROM EXP_DATE_MANAGEMENT WHERE PROD_NUM='$prodnum')+:saleqty WHERE  PROD_NUM='$prodnum'" ;   
+        $s2 = oci_parse($conn,$query);
+
+        oci_bind_by_name($s2,':saleqty', $saleqty);
+        oci_execute($s2);
+        oci_free_statement($s2);
 
 	    //재고수량 증가에 따른 유통관리테이블 증가
 	 //    $query = "SELECT ENT_DATE FROM EXP_DATE_MANAGEMENT WHERE PROD_NUM='$prodnum' " ;   
