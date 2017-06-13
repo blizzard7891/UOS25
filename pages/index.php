@@ -46,7 +46,7 @@ if(!isset($_SESSION['user_id']) || !isset($_SESSION['empnum'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">UOS25</a>
+                <a class="navbar-brand" href="index.php">UOS25</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
