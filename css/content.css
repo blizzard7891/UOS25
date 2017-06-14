@@ -1,4 +1,5 @@
 @charset "utf-8";
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
 /* CSS Document */
 body::-webkit-scrollbar { 
     display: none; 
@@ -29,4 +30,20 @@ body::-webkit-scrollbar {
 .td-red{
 	background-color: rgba(243,64,64,0.28);
 	text-align: right;
+}
+
+.font-1{
+	font-family: 'Jeju Gothic', serif;
+	font-size : 14px;
+}
+
+.navname{
+	font-size: 16px;
+}
+
+hr {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    border: 0;
+    border-top: 1px solid #eee;
 }

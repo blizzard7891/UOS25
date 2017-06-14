@@ -95,7 +95,7 @@
                 }
             }
 
-            $query = "SELECT refund_num, refund_date, sale_num, employee_num FROM refund";
+            $query = "SELECT refund_num, TO_CHAR(refund_date,'yyyy/mm/dd') AS refund_date, sale_num, employee_num FROM refund";
             $s = oci_parse($conn,$query);
             oci_execute($s);
             do_fetch($s);

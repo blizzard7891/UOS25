@@ -194,7 +194,7 @@
 										echo "<td>현금</td>";
 									elseif ( $item == $row[ 'CLACNT_GROUP' ] && trim( $item ) === "01" )
 										echo "<td>카드</td>";
-									elseif ( $item == 0 )
+									elseif ( $item == '0' )
 										echo "<td>0</td>";
 									else
 										echo "<td>" . ( $item ? htmlentities( $item ) : '&nbsp;' ) . "</td>";
@@ -205,14 +205,14 @@
 						}
 
 						$query = "SELECT 
-					CLACNT_NUM,
-					TO_CHAR(CLACNT_DATE,'YYYY/MM/DD'),
-					CLACNT_GROUP,
-					PROFIT,
-					EXPENSE,
-					CLACNT_AMOUNT,
-					EMPLOYEE_NUM
-					FROM CLOSING_ACCOUNT";
+					a.CLACNT_NUM,
+					TO_CHAR(a.CLACNT_DATE,'YYYY/MM/DD'),
+					a.CLACNT_GROUP,
+					a.PROFIT,
+					a.EXPENSE,
+					a.CLACNT_AMOUNT,
+					b.NAME
+					FROM CLOSING_ACCOUNT a, EMPLOYEE b WHERE a.employee_num = b.employee_num";
 
 						$s = oci_parse( $conn, $query );
 						oci_execute( $s );

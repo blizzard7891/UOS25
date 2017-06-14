@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once( "./db.php" );
 
 $query = "SELECT count(*) FROM CLOSING_ACCOUNT WHERE TO_CHAR(clacnt_date,'yyyy-mm-dd')=:cdate";
@@ -29,7 +30,7 @@ if ( isset( $_POST[ 'td1_3' ] ) && isset( $_POST[ 'td2_3' ] ) && $_POST[ 'td1_3'
 	$carddate = $_POST[ 'td2_3' ];
 	$cardflag = "01";
 	$cardamount = $cardprofit - $cardspending;
-	$user = "2017001";
+	$user = $_SESSION['empnum'];
 
 
 	$seq++;

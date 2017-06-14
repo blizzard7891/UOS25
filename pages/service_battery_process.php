@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once( "./db.php" );
 
 //배터리 입력
@@ -76,7 +77,7 @@ if ( $_POST[ 'type' ] == "0" ) {
 			$prodnum = $row[ 'PROD_NUM' ];
 			oci_free_statement( $s );
 
-			$employeenum = "2017001";
+			$employeenum = $_SESSION['empnum'];
 			$paymethod = $_POST[ 'flag' ];
 			$refundflag = '0';
 
