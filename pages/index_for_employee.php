@@ -122,7 +122,6 @@
                             </ul>
                         </li>
                         <li>
-<<<<<<< HEAD:pages/index.html
                             <a href="#" onclick="changeUrl('account_manage.php')">
                             <i class="fa fa-credit-card fa-fw"></i> 자금관리</a>
                         </li>
@@ -141,8 +140,6 @@
 							</ul>
                         </li>
                         <li>
-=======
->>>>>>> 60c8f376ee7445caf127e5f038f34f59d87d9238:pages/index_for_employee.php
                             <a href="#"><i class="fa fa-cubes fa-fw"></i> 부가서비스<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                             	<li>
