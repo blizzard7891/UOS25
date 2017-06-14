@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once( "./db.php" );
 
 if ( isset( $_POST[ 'invoice' ] ) ) {
@@ -59,7 +60,7 @@ if ( isset( $_POST[ 'invoice' ] ) ) {
 		$salenum = $row[ 'COUNT(*)' ] + 1;
 		oci_free_statement( $s );
 
-		$employeenum = "2017001";
+		$employeenum = $_SESSION['empnum'];
 		$paymethod = $_POST[ 'payMethod' ];
 		$refundflag = '0';
 
