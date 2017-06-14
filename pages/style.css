@@ -7,7 +7,7 @@ body{
 }
 
 .first-section{
-	background: url('./5.png');
+	background: url('images/5.jpg');
 	min-height: 662px;
 	background-size: cover;
 	background-attachment: fixed;
@@ -37,7 +37,6 @@ body{
 
 }
 .headertext{
-	font-family: 'Metamorphous', cursive;
 	margin-top: 18%;
 	color: #FFFFFF;
 	font-weight: bold;

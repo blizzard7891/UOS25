@@ -60,7 +60,7 @@
 
             }else if($eventgroup=='010'){
                 $prod_event="할인 행사중";
-                $prod_sum=$beforeprice-$discount_price;
+                $prod_sum=$beforeprice-($discount_price*$prod_count);
             } 
            
         }
@@ -309,6 +309,6 @@
 
     }
         
-     // echo( "<script>location.replace('./sales_insert.php');</script>" );
+     echo( "<script>location.replace('./sales_insert.php');</script>" );
     
 ?>

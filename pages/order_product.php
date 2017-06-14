@@ -86,6 +86,7 @@
 								<th>도매가</th>
 								<th>총액</th>
 								<th>업체명</th>
+								<th>&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>

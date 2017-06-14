@@ -64,6 +64,7 @@ if($_POST['type']=="주문추가"){
 	oci_execute($s);
 	oci_free_statement($s);
 	oci_close($conn);
+
 }elseif($_POST['type']=="주문"){
 	if(!empty($_POST['pricesum'])){
 		include_once("./db.php");

@@ -144,7 +144,7 @@
                         {
                           while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
                           {
-                            echo "<li >[ 관리 번호 ]  ".$row['MANAGEMENT_NUM']."　[ 반납예정일 ]  ".$row['TMP']."</li>";
+                            echo "<li >[ 관리 번호 ]  ".$row['MANAGEMENT_NUM']."<br>[ 반납예정일 ]  ".$row['TMP']."</li>";
                          
                           }
                         }

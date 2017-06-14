@@ -146,7 +146,7 @@
 						oci_execute($s);
 						do_fetch($s);
 
-						oci_close($conn);
+						
 						?>
 
 					</tbody>

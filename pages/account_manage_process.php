@@ -27,7 +27,7 @@ if(isset($_POST['amount']))
 	}
 	oci_free_statement($s);
 	
-
+$ramount=0;
 //get remain_amount
 	$query = "SELECT remain_amount FROM MONEY_MANAGEMENT WHERE seq_num = (SELECT MAX(seq_num) FROM MONEY_MANAGEMENT WHERE pay_method = :paymethod)";
 	$s = oci_parse($conn,$query);
@@ -39,7 +39,10 @@ if(isset($_POST['amount']))
 	}
 	oci_free_statement($s);
 	
-
+	if($ramount == ''){
+		$ramount = 0;
+	}
+	
 	if($flag=='00')
 		$ramount = $ramount + $amount;
 	elseif($flag=='01')
@@ -52,9 +55,9 @@ if(isset($_POST['amount']))
 
 		$query = "INSERT INTO MONEY_MANAGEMENT (
 		SEQ_NUM,
-		CHANGE_DATE,
+		WRITE_DATE,
 		DESCRIPTION,
-		FLAG,
+		WRITE_GROUP,
 		PAY_METHOD,
 		AMOUNT,
 		REMAIN_AMOUNT 
