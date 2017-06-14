@@ -95,7 +95,7 @@
               }
             }
 
-            $query = "SELECT sale_num, sale_date, pay_method, sale_amount, refund_flag, employee_num FROM SALE";
+            $query = "SELECT sale_num, TO_CHAR(sale_date,'yyyy/mm/dd') AS sale_date, pay_method, sale_amount, refund_flag, employee_num FROM SALE";
             $s = oci_parse($conn,$query);
             oci_execute($s);
             do_fetch($s);
