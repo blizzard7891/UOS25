@@ -85,7 +85,7 @@ if(!empty($_POST['ename']) && !empty($_POST['ephone']) && !empty($_POST['eaddres
   oci_free_statement($compiled2);
   oci_close($conn);
   echo "<script>alert(\"$ename 님의 사번은 $enum 입니다\");</script>";
-  echo "<script>location.replace('./employee_manage.php');</script>"; 
+ echo "<script>location.replace('./employee_manage.php');</script>"; 
 
 }
 else {

@@ -1,6 +1,7 @@
-<?php session_start(); ?>
-
-<?php 
+<?php
+if(!empty($_POST['id']) && !empty($_POST['password']))
+{
+session_start(); 
 include_once("./db.php");
 $query1 = "SELECT * FROM LOGIN_INFO WHERE ID = :id";
 $stid1 = oci_parse($conn, $query1) or die('oci parse error: '.oci_error($conn));
@@ -33,16 +34,20 @@ if($check_id == $_POST['id'] && $check_pw == $_POST['password'])
 		$_SESSION['user_id'] = $check_id;
 		$_SESSION['empnum'] = $enum;
 		$_SESSION['empname'] = $name;
+		$_SESSION['rank'] = $rank;
 		echo("<script>location.replace('./index.php');</script>"); 
 	}else{
 		$_SESSION['user_id'] = $check_id;
 		$_SESSION['empnum'] = $enum;
 		$_SESSION['empname'] = $name;
+		$_SESSION['rank'] = $rank;
 		echo("<script>location.replace('./index_for_employee.php');</script>"); 
 	}
 }
 
-echo "<script> alert('login failed'); location.replace('./login.html');</script>";
-
+echo "<script> alert('로그인 실패'); location.replace('./login.html');</script>";
+}else {
+	echo "<script> alert('내용을 입력해주세요'); location.replace('./login.html');</script>";
+}
 
 ?>

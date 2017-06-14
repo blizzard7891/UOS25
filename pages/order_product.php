@@ -94,14 +94,19 @@
 
 							function do_fetch($s)
 							{
+								$count = 0;
+
 								while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
 								{
-									echo "<tr>";
+									echo "<tr id="."tr_".$count.">";
 									foreach ($row as $item) 
 									{
 										echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
 									}
+									echo "<td style=\"text-align: center\"><button onclick=delete_list(".$count.");>삭제</button></td>";
 									echo "</tr>";
+
+									$count++;
 								}
 							}
 
@@ -171,6 +176,27 @@
 			else { return;}
 
 		}
+
+		function delete_list(row){
+
+			var tr = document.getElementById("tr_"+row);
+			var pname = tr.cells[0].innerHTML;
+			var form = document.createElement("form");
+			form.setAttribute("name", "myform");
+			form.setAttribute("action", "./order_product_delete.php");
+			form.setAttribute("method", "post");
+
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", "pname");
+			hiddenField.setAttribute("value", pname);
+			form.appendChild(hiddenField);
+			document.body.appendChild(form);
+
+			form.submit();
+
+		}
+
 
 		$(document).ready(function() {
 			$('#myTable').DataTable({
