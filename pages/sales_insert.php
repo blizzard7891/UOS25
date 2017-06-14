@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +52,21 @@
                             
                             <div class="form-group">
                                 <label>판매제품번호</label>
-                                <input type="text" class="form-control" name="salenum">
+                                <select class="form-control" name="salenum">
+                                    <option value="">제품선택</option>
+                                    <?php
+                                    include_once("db.php");
+                                    $query = "SELECT PROD_NAME, PROD_NUM FROM PRODUCT";
+                                    $stid = oci_parse($conn, $query) or die('oci parse error: '.oci_error($conn));
+                                    if(oci_execute($stid)==false) die("oci query error [$query] message : ".oci_error($stid));
+                                    while ( ($res = oci_fetch_array($stid, OCI_ASSOC)) != false) {
+                                        $tmp = $res['PROD_NAME'];
+                                        $pnum = $res['PROD_NUM'];
+                                        echo "<option value=$pnum>{$res['PROD_NAME']}</option>";
+                                    }
+                                    oci_free_statement($stid);
+                                    ?> 
+                                </select>
                             </div>
 
                             <div class="form-group mb-5">
@@ -78,6 +93,7 @@
                                             <th>총 수량</th>
                                             <th>원 가격</th>
                                             <th>할인 후 가격</th>
+                                            <th>&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -87,14 +103,17 @@
 
                                         function do_fetch($s)
                                         {
+                                            $count = 0;
                                             while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
                                             {
-                                                echo "<tr>";
+                                                echo "<tr id="."tr_".$count.">";
                                                 foreach ($row as $item) 
                                                 {
                                                         echo "<td>".($item?htmlentities($item):'&nbsp;')."</td>";
                                                 }
+                                                echo "<td style=\"text-align: center\"><input type='button' onclick=delete_list(".$count."); value=\"삭제\"></input></td>";
                                                 echo "</tr>";
+                                                $count++;
                                             }
                                         }
 
@@ -157,7 +176,7 @@
                         </div>
                         <div class="col-lg-12 mt-5">
                             <strong>결제자 : </strong>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" value="<?php echo $_SESSION['empname'] ?>" readonly>                   
                         </div>
                         <div class="col-lg-12 mt-5">
                             
@@ -203,6 +222,26 @@
             responsive: true
         });
     });
+
+    function delete_list(row){
+
+            var tr = document.getElementById("tr_"+row);
+            var pname = tr.cells[0].innerHTML;
+            var form = document.createElement("form");
+            form.setAttribute("name", "myform");
+            form.setAttribute("action", "./sales_insert_delete.php");
+            form.setAttribute("method", "post");
+
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "pname");
+            hiddenField.setAttribute("value", pname);
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+
+            form.submit();
+
+        }
         
     
     document.onkeydown = trapRefresh;

@@ -82,20 +82,20 @@
                 echo "<tr id="."tr_".$count." onclick=more_info(".$count.");>";
 
                 echo '<td>'; echo $row['SALE_NUM']; echo '</td>';
-                echo '<td>'; echo $row['SALE_DATE']; echo'</td>';
+                echo '<td>'; echo $row['TO_CHAR(A.SALE_DATE,\'YYYY/MM/DD\')']; echo'</td>';
                 if($row['PAY_METHOD']=='00') echo "<td>현금</td>";
                 else echo "<td>카드</td>";
                 echo '<td>'; echo $row['SALE_AMOUNT']; echo'원</td>';
-                if($row['REFUND_FLAG']==0) echo "<td class='td-p0'><button class='btn-danger' onclick=refund(".$count.");>환불처리</button></td>";
+                if($row['REFUND_FLAG']==0) echo "<td class='td-p0' style=\"text-align: center\"><button class='btn-danger' onclick=refund(".$count."); >환불처리</button></td>";
                 else echo "<td class='td-l5'>환불됨</button></td>";
-                echo '<td>'; echo $row['EMPLOYEE_NUM']; echo'</td>';
+                echo '<td>'; echo $row['NAME']; echo'</td>';
                 echo "</tr>";
 
                 $count=$count+1;
               }
             }
 
-            $query = "SELECT sale_num, sale_date, pay_method, sale_amount, refund_flag, employee_num FROM SALE";
+            $query = "SELECT a.sale_num, TO_CHAR(a.SALE_DATE,'YYYY/MM/DD'), a.pay_method, a.sale_amount, a.refund_flag, b.name FROM SALE a, EMPLOYEE b WHERE a.EMPLOYEE_NUM = b.EMPLOYEE_NUM";
             $s = oci_parse($conn,$query);
             oci_execute($s);
             do_fetch($s);
@@ -184,7 +184,8 @@
 
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: true
+            responsive: true,
+            "aaSorting":[[0,'desc']]
         });
     });
 		

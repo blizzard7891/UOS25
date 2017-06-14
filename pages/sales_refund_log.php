@@ -86,16 +86,16 @@
 
                 echo "<tr>";
                 echo '<td>'; echo $row['REFUND_NUM']; echo '</td>';
-                echo '<td>'; echo $row['REFUND_DATE']; echo '</td>';
+                echo '<td>'; echo $row['TO_CHAR(A.REFUND_DATE,\'YYYY/MM/DD\')']; echo '</td>';
                 echo '<td>'; echo $row1['SALE_AMOUNT']; echo'원</td>';
                 echo '<td>'; echo $row['SALE_NUM']; echo'</td>';
-                echo '<td>'; echo $row['EMPLOYEE_NUM']; echo'</td>';
+                echo '<td>'; echo $row['NAME']; echo'</td>';
                 echo "</tr>";
               
                 }
             }
 
-            $query = "SELECT refund_num, refund_date, sale_num, employee_num FROM refund";
+            $query = "SELECT a.refund_num, TO_CHAR(a.refund_date,'YYYY/MM/DD'), a.sale_num, b.name FROM refund a, employee b WHERE a.employee_num = b.employee_num";
             $s = oci_parse($conn,$query);
             oci_execute($s);
             do_fetch($s);
@@ -124,7 +124,8 @@
     <script>
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: true
+            responsive: true,
+            "aaSorting":[[0,'desc']]
         });
     });
 		

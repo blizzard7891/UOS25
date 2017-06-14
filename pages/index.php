@@ -214,7 +214,7 @@ if($_SESSION['rank']=="아르바이트") {
   function changeUrl(url)
   {
    document.getElementById("main_frame").src = url;
-}
+ }
 
 document.onkeydown = trapRefresh;
 function trapRefresh()

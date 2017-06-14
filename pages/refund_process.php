@@ -1,4 +1,5 @@
 <?php
+session_start();
 	date_default_timezone_set('Asia/Seoul');
 
 	include_once("./db.php");
@@ -13,11 +14,11 @@ if(isset($_POST['salenum'])){
 
 
 	$salenum=$_POST['salenum'];
-
+	$enum = $_SESSION['empnum'];
 	$date=date("Y/m/d");
 
 //환불테이블에 추가
-	$query = "INSERT INTO REFUND(REFUND_NUM, REFUND_DATE, SALE_NUM, EMPLOYEE_NUM) VALUES ('$refundnum', TO_DATE(:wdate,'yyyy/mm/dd'),'$salenum','2017001')";
+	$query = "INSERT INTO REFUND(REFUND_NUM, REFUND_DATE, SALE_NUM, EMPLOYEE_NUM) VALUES ('$refundnum', TO_DATE(:wdate,'yyyy/mm/dd'),'$salenum', '$enum')";
 	$s = oci_parse($conn,$query);
 	oci_bind_by_name($s,':wdate',$date);
 

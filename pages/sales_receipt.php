@@ -71,7 +71,7 @@
               while($row = oci_fetch_array($s,OCI_RETURN_NULLS + OCI_ASSOC))
               {
 
-                $query = "SELECT sale_date, sale_amount FROM sale WHERE sale_num='$row[SALE_NUM]'";
+                $query = "SELECT TO_CHAR(SALE_DATE,'YYYY/MM/DD'), sale_amount FROM sale WHERE sale_num='$row[SALE_NUM]'";
                 $conn = oci_connect('juneui', 'helloworld', 'juneui.cwpxsqzgvzt5.ap-northeast-2.rds.amazonaws.com:1521/orcl', 'UTF8');
                 $s1 = oci_parse($conn,$query);
                 oci_execute($s1);
@@ -82,7 +82,7 @@
 
                 echo "<tr>";
                 echo '<td>'; echo $row['RECEIPT_NUM']; echo '</td>';
-                echo '<td>'; echo $row1['SALE_DATE']; echo '</td>';
+                echo '<td>'; echo $row1['TO_CHAR(SALE_DATE,\'YYYY/MM/DD\')']; echo '</td>';
                
 
                 if($row['RECEIPT_FLAG']==0) echo "<td>판매영수증</td>";
@@ -124,7 +124,8 @@
     <script>
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: true
+            responsive: true,
+            "aaSorting":[[0,'desc']]
         });
     });
 		
