@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">UOS25</a>
+                <a class="navbar-brand" href="index_for_employee.php">UOS25</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -122,18 +122,8 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" onclick="changeUrl('account_manage.php')">
-                            <i class="fa fa-credit-card fa-fw"></i> 자금관리</a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="changeUrl('closing_account.php')"><i class="fa fa-edit fa-fw"></i> 결산관리</a>
-                        </li>
-                        <li>
                             <a href="#"><i class="fa fa-users fa-fw"></i> 직원관리<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                            	<li>
-                            		<a href="#" onclick="changeUrl('employee_manage.php')">직원정보</a>
-                            	</li>
                             	<li>
                             		<a href="#" onclick="changeUrl('employee_schedule.php')">근무부</a>
                             	</li>

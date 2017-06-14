@@ -6,6 +6,10 @@ if(!isset($_SESSION['user_id']) || !isset($_SESSION['empnum'])) {
    exit; 
 
 }
+if($_SESSION['rank']=="아르바이트") {
+    echo "<script>alert(\"접근 권한이 없습니다\");</script>";
+    echo "<meta http-equiv='refresh' content='0;url=index_for_employee.php'>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
